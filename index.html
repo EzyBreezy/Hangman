@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="style.css" rel="stylesheet">
+    <script src="script.js" defer></script>
+    <title>Hangman</title>
+</head>
+
+<body>
+
+    <nav>
+        <ul>
+            <li>
+                <a href="./instructions.html"> Instructions </a>
+            </li>
+        </ul>
+    </nav>
+    <main> 
+        <section id="game-detail">
+            <div>
+                <div id="timer"> 
+                    <p id="minutes"> 0 </p>
+                    <p> : </p> 
+                    <p id="seconds"> 00</p>
+
+                </div>
+            </div>
+            <div>
+                <h1> Hangman </h1>
+            </div>
+            <div>
+                <p> #Correct/#Wrong</p>
+            </div>
+        </section>
+        <section id="game-image">
+            <img src="hangman_image/1.png">
+        </section>
+        <section id="game">
+            <input type="text" placeholder="Add Words" id="word">
+            <input type="submit" id="submit">
+        </section>
+        <section id="game-navigation">
+            <input type="reset" id="reset">
+            <input type="submit" value="Start" id="start">
+        </section>
+    </main>
+    <footer>
+        <p> JavaScript DOM Manipulation project</p>
+    </footer>
+</body>
+
+</html>
