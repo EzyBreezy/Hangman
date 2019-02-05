@@ -15,8 +15,9 @@ let sec = 00    // start game with 0 sec
 let extra = 2   // add value for correct answers and number of words * future make this a field player can add bonus time value *
 
 //adds word to word list
-let wordList = [] // the list of words entered
-let gameWord = [] // the playing word
+let wordList = []         // the list of words entered
+let gameWord = []         // the playing word
+let hashOfGameWord = []   // array of gameWord split
 
 //Keyboard array
 let keyboardStrokes = [] // stores key pressed to filter
@@ -38,11 +39,13 @@ start.addEventListener("click", function buttonClicked() {                      
     if (gameWord.hasOwnProperty([0]) === false) {                                       // checks to make sure current game isnt active
         if (wordList.hasOwnProperty([0]) === true) {                                    // can only start the game if the wordList has words to play with.
             selectWord(wordList)                                                        // picks one word from wordList
+            splitOfWords()
             countDown();                                                                // Clock starts ticking
             document.addEventListener("keypress", function keyboard(event) {
                 if (keyboardStrokes.indexOf(event.key.toUpperCase()) === -1) {          // only checks if the keypressed wasnt already entered
                     keyboardStrokes.push(event.key.toUpperCase())                       // pushes the value of key pressed to array keyboardStrokes
                     console.log("The values in keyboardStrokes:", keyboardStrokes)      // ***testing***
+                    gameLogic(event)
                 }
             })
         }
@@ -57,9 +60,21 @@ reset.addEventListener("click", function buttonClicked() {      // reset button 
     window.alert("reset works")                                 // needs work
 })
 
+function gameLogic(event) {
+    for (let i=0; i < hashOfGameWord[0].length; i++) {
+        if(hashOfGameWord[0][i] === event.key.toUpperCase()){
+            console.log("You got it right I found ", event)
+        } else if (hashOfGameWord[0][i] !== event.key.toUpperCase()) {
+            console.log("You got it wrong I didnt find ", event)
+        }  
+    } 
+}
 
-
-
+// function that splits the game word
+//      [x] splits the game word
+function splitOfWords(){
+    hashOfGameWord.push(gameWord[0].split(""))                                      // brakes the game word into individual arrays of each letter
+}
 
 
 // function to pick a word
@@ -80,6 +95,7 @@ function addTime(extra) {                                       // executable fu
 // function that counts down
 //      [x] takes the value of minutes 
 //      and counts down from that value
+//      [x] up scalable
 function countDown() {                                          // countdown function
     let ts = setInterval(function () {
         if (min > 0) {
@@ -133,9 +149,11 @@ function countDown() {                                          // countdown fun
 */
 
 
-/*
+/*  
+    array.some(function(){ }) allows you to write a function to test each letter
+    forEach() method executes a provided function once for each array element.
+    substring() & substr() // removes letters from a word
     trim() // removes whitespace
-    when game ends end interval
     change color of start to red once word is entered.
 */
 
@@ -143,4 +161,5 @@ function countDown() {                                          // countdown fun
 //acomplishments
 - Got Timer to function, YAY!
 - Removing word from wordList is working like a charm, YAY!
+- keyStrokes are working!
 */
