@@ -62,6 +62,13 @@ main {
   
 }
 
+#game-image {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 #game {
   display: flex;
   justify-content: center;

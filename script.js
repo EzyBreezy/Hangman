@@ -9,7 +9,7 @@ const minutes = document.getElementById("minutes");
 const seconds = document.getElementById("seconds");
 
 // timer variables for html document
-const timer = document.getElementById("timer") 
+const timer = document.getElementById("timer")
 let min = 0     // start game with 0 min
 let sec = 00    // start game with 0 sec
 let extra = 2   // add value for correct answers and number of words * future make this a field player can add bonus time value *
@@ -21,6 +21,10 @@ let hashOfGameWord = []   // array of gameWord split
 
 //Keyboard array
 let keyboardStrokes = [] // stores key pressed to filter
+
+// Game Logic
+win = 0
+lose = 0
 
 submit.addEventListener("click", function buttonClicked() {                             // submit button event listener
     if (word.selectionEnd > 0) {                                                        // looked at the object to see if it has a word greater then 0
@@ -60,19 +64,29 @@ reset.addEventListener("click", function buttonClicked() {      // reset button 
     window.alert("reset works")                                 // needs work
 })
 
+// function that handles game logic
+//      [ ] Handles right & wrong.
 function gameLogic(event) {
-    for (let i=0; i < hashOfGameWord[0].length; i++) {
-        if(hashOfGameWord[0][i] === event.key.toUpperCase()){
-            console.log("You got it right I found ", event)
-        } else if (hashOfGameWord[0][i] !== event.key.toUpperCase()) {
-            console.log("You got it wrong I didnt find ", event)
-        }  
-    } 
+    // console.log("the Status I'm getting is", checkEach(hashOfGameWord[0], event.key.toUpperCase()))
+    if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {
+        console.log("You got it right I found ", event.key.toUpperCase());
+    } else if (checkEach(hashOfGameWord[0]) === false) {
+        console.log("You got it wrong I didnt find ", event.key.toUpperCase())
+    }
 }
+
+// function to check each key for wrong or right.
+//      
+function checkEach(lettersArr, key) {
+    return lettersArr.some(function(lettersArrKeyStrokes){
+        return key === lettersArrKeyStrokes
+    })
+}
+
 
 // function that splits the game word
 //      [x] splits the game word
-function splitOfWords(){
+function splitOfWords() {
     hashOfGameWord.push(gameWord[0].split(""))                                      // brakes the game word into individual arrays of each letter
 }
 
@@ -149,7 +163,7 @@ function countDown() {                                          // countdown fun
 */
 
 
-/*  
+/*
     array.some(function(){ }) allows you to write a function to test each letter
     forEach() method executes a provided function once for each array element.
     substring() & substr() // removes letters from a word
@@ -162,4 +176,16 @@ function countDown() {                                          // countdown fun
 - Got Timer to function, YAY!
 - Removing word from wordList is working like a charm, YAY!
 - keyStrokes are working!
+*/
+
+/*
+    thro away code
+     // }
+    // hashOfGameWord[0].forEach(function(hash){
+        // we want to diferentiate if its right or wrong.
+        // console.log(hash)
+        // if (event.key.toUpperCase() === hashOfGameWord[0]){
+        //     console.log("this is correct key:", event.key.toUpperCase())
+        // }
+    // })
 */
