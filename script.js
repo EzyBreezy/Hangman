@@ -65,25 +65,24 @@ reset.addEventListener("click", function buttonClicked() {      // reset button 
 })
 
 // function that handles game logic
-//      [ ] Handles right & wrong.
-function gameLogic(event) {
-    // console.log("the Status I'm getting is", checkEach(hashOfGameWord[0], event.key.toUpperCase()))
-    if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {
-        console.log("You got it right I found ", event.key.toUpperCase());
-        for(i=0; i < hashOfGameWord[0].length; i++) {
-            if(hashOfGameWord[0][hashOfGameWord[0].indexOf(event.key.toUpperCase())] === event.key.toUpperCase()) {
-               hashOfGameWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1)
-               console.log("The Words in hashOfGameWord: ", hashOfGameWord[0])
+//      [x] Handles right & wrong.
+function gameLogic(event) {                                                                                         // Game Logic Function
+    if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {                                           // returns boolean and expects true
+        console.log("You got it right I found ", event.key.toUpperCase());                                          // *TESTING* Notifies that it found that key.
+        for(i=0; i < hashOfGameWord[0].length; i++) {                                                               // for loop that runs for length of word.
+            if(hashOfGameWord[0][hashOfGameWord[0].indexOf(event.key.toUpperCase())] === event.key.toUpperCase()) { // checks hash of game words letters match up.
+               hashOfGameWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1)                      // removes the letter at the index
+               console.log("The Words in hashOfGameWord: ", hashOfGameWord[0])                                      // testing prints the current values in hashOfGameWord[0]
             }
         }
-    } else if (checkEach(hashOfGameWord[0]) === false) {
+    } else if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === false) {                                   // checks for a false boolean for k
         console.log("You got it wrong I didnt find ", event.key.toUpperCase())
     }
 }
 
 // function to check each key for wrong or right.
-//      
-function checkEach(lettersArr, key) {
+//      [x] returns a boolean value true or false if the key exists.
+function checkEach(lettersArr, key) {    
     return lettersArr.some(function(lettersArrKeyStrokes){
         return key === lettersArrKeyStrokes
     })
