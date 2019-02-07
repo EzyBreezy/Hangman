@@ -70,6 +70,12 @@ function gameLogic(event) {
     // console.log("the Status I'm getting is", checkEach(hashOfGameWord[0], event.key.toUpperCase()))
     if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {
         console.log("You got it right I found ", event.key.toUpperCase());
+        for(i=0; i < hashOfGameWord[0].length; i++) {
+            if(hashOfGameWord[0][hashOfGameWord[0].indexOf(event.key.toUpperCase())] === event.key.toUpperCase()) {
+               hashOfGameWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1)
+               console.log("The Words in hashOfGameWord: ", hashOfGameWord[0])
+            }
+        }
     } else if (checkEach(hashOfGameWord[0]) === false) {
         console.log("You got it wrong I didnt find ", event.key.toUpperCase())
     }
@@ -145,15 +151,15 @@ function countDown() {                                          // countdown fun
 
 /*
 
-    friend or player enters number of words.
+    friend or player enters number of words. *DONE*
     event listener for submit box. *DONE*
     onClick let user know button was hit some way.  **Need to work on this**
     words are converted to all caps. *DONE*
     words are pushed to wordLIST *DONE*
     add event listener for start. *DONE*
-    hide submit and word.
-    timer starts counting down.
-    randomly select one of the words from the word bank.
+    hide submit and word. 
+    timer starts counting down. *DONE*
+    randomly select one of the words from the word bank. *DONE*
     create a number of _ _ _ _ for each letter of the word.
     add event listener to keystrokes.
     filter right letters pressed vs wrong letters pressed
@@ -176,6 +182,7 @@ function countDown() {                                          // countdown fun
 - Got Timer to function, YAY!
 - Removing word from wordList is working like a charm, YAY!
 - keyStrokes are working!
+- some() is functioning! huge props!
 */
 
 /*
