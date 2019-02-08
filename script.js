@@ -23,8 +23,9 @@ let hashOfGameWord = []   // array of gameWord split
 let keyboardStrokes = [] // stores key pressed to filter
 
 // Game Logic
-win = 0
-lose = 0
+win = 0     // needs work
+lose = 0    // needs work
+letterCount = 0
 
 submit.addEventListener("click", function buttonClicked() {                             // submit button event listener
     if (word.selectionEnd > 0) {                                                        // looked at the object to see if it has a word greater then 0
@@ -43,15 +44,9 @@ start.addEventListener("click", function buttonClicked() {                      
     if (gameWord.hasOwnProperty([0]) === false) {                                       // checks to make sure current game isnt active
         if (wordList.hasOwnProperty([0]) === true) {                                    // can only start the game if the wordList has words to play with.
             selectWord(wordList)                                                        // picks one word from wordList
-            splitOfWords()
+            splitOfWords();
             countDown();                                                                // Clock starts ticking
-            document.addEventListener("keypress", function keyboard(event) {
-                if (keyboardStrokes.indexOf(event.key.toUpperCase()) === -1) {          // only checks if the keypressed wasnt already entered
-                    keyboardStrokes.push(event.key.toUpperCase())                       // pushes the value of key pressed to array keyboardStrokes
-                    console.log("The values in keyboardStrokes:", keyboardStrokes)      // ***testing***
-                    gameLogic(event)
-                }
-            })
+            listener()
         }
         else if (wordList.hasOwnProperty([0]) === false) {                              // if false
             window.alert("I need some words!")                                          // lets player know needs more words
@@ -64,26 +59,28 @@ reset.addEventListener("click", function buttonClicked() {      // reset button 
     window.alert("reset works")                                 // needs work
 })
 
-// function that handles game logic
-//      [x] Handles right & wrong.
-function gameLogic(event) {                                                                                         // Game Logic Function
-    if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {                                           // returns boolean and expects true
-        console.log("You got it right I found ", event.key.toUpperCase());                                          // *TESTING* Notifies that it found that key.
-        for(i=0; i < hashOfGameWord[0].length; i++) {                                                               // for loop that runs for length of word.
-            if(hashOfGameWord[0][hashOfGameWord[0].indexOf(event.key.toUpperCase())] === event.key.toUpperCase()) { // checks hash of game words letters match up.
-               hashOfGameWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1)                      // removes the letter at the index
-               console.log("The Words in hashOfGameWord: ", hashOfGameWord[0])                                      // testing prints the current values in hashOfGameWord[0]
-            }
+
+// function that handles the keyboard listening
+function listener(){
+    document.addEventListener("keypress", function keyboard(event) {            // event listener
+        if (keyboardStrokes.indexOf(event.key.toUpperCase()) === -1) {          // only checks if the keypressed wasnt already entered
+            keyboardStrokes.push(event.key.toUpperCase())                       // pushes the value of key pressed to array keyboardStrokes
+            console.log("The values in keyboardStrokes:", keyboardStrokes)      // ***testing***
+            gameLogic(event)
         }
-    } else if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === false) {                                   // checks for a false boolean for k
-        console.log("You got it wrong I didnt find ", event.key.toUpperCase())
-    }
+    })
+}
+
+// adds 1 to letterCount to keep status of game
+//      [x] adds 1 to the variable letterCount
+function addOne(){
+    letterCount += 1
 }
 
 // function to check each key for wrong or right.
 //      [x] returns a boolean value true or false if the key exists.
-function checkEach(lettersArr, key) {    
-    return lettersArr.some(function(lettersArrKeyStrokes){
+function checkEach(lettersArr, key) {
+    return lettersArr.some(function (lettersArrKeyStrokes) {
         return key === lettersArrKeyStrokes
     })
 }
@@ -145,7 +142,61 @@ function countDown() {                                          // countdown fun
     }, 1000)
 }
 
+function gameLogic(event) {                                                                                         // Game Logic Function
+    if (hashOfGameWord[0].length > letterCount) {
+        if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {                                           // returns boolean and expects true
+            console.log("You got it right I found ", event.key.toUpperCase());                                          // *TESTING* Notifies that it found that key.
+            for (i = 0; i < hashOfGameWord[0].length; i++) {                                                               // for loop that runs for length of word.
+                if (hashOfGameWord[0][hashOfGameWord[0].indexOf(event.key.toUpperCase())] === event.key.toUpperCase()) { // checks hash of game words letters match up.
+                    hashOfGameWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, "_")                    // removes the letter at the index
+                    addOne()
+                    // console.log("The Words in hashOfGameWord: ", hashOfGameWord[0])                                         // testing prints the current values in hashOfGameWord[0]
+                    // console.log(letterCount)
+                    if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {
+                        pickOne()
+                    }
+                }
+                
+            }
+        } else if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === false) {                                   // checks for a false boolean for k
+            console.log("You got it wrong I didnt find ", event.key.toUpperCase())
+        }
+    } else if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {      // add an && that checks another word is available and call a winner for solving
+        pickOne()
+    }
+}
 
+function pickOne() {
+    console.log("Did i run")
+    addTime()     
+    gameWord = []                                                             // adds time to the clock equivelent to the word
+    hashOfGameWord = []
+    keyboardStrokes = []
+    letterCount = 0
+    selectWord(wordList)                                                        // picks one word from wordList and asigns it to gameWord
+    splitOfWords();                                                             // splits the chosen word and pushes to hashofgamewor
+    test()                                                                      // test full of console.log for status
+}
+
+
+function test(){
+    console.log("/// Test Function ///")
+    console.log("the list of words in game are: ")
+    console.log("wordList is => ", wordList)
+    console.log("                              ")
+    console.log("the selected gameWord is: ")
+    console.log("gameWord is => ", gameWord)
+    console.log("                              ")
+    console.log("the hash of game word is : ")
+    console.log("hashOfGameWord is => ", hashOfGameWord)
+    console.log("                              ")
+    console.log("the rolling cycle of letters are: ")
+    console.log("Letter Count is => ", letterCount)
+    console.log("                              ")
+    console.log("the input collection is: ")
+    console.log("keyboardStrokes is => ", keyboardStrokes)
+    console.log("                              ")
+}
 // sudo code
 
 /*
@@ -156,7 +207,7 @@ function countDown() {                                          // countdown fun
     words are converted to all caps. *DONE*
     words are pushed to wordLIST *DONE*
     add event listener for start. *DONE*
-    hide submit and word. 
+    hide submit and word.
     timer starts counting down. *DONE*
     randomly select one of the words from the word bank. *DONE*
     create a number of _ _ _ _ for each letter of the word.
@@ -169,8 +220,6 @@ function countDown() {                                          // countdown fun
 
 
 /*
-    array.some(function(){ }) allows you to write a function to test each letter
-    forEach() method executes a provided function once for each array element.
     substring() & substr() // removes letters from a word
     trim() // removes whitespace
     change color of start to red once word is entered.
@@ -185,13 +234,13 @@ function countDown() {                                          // countdown fun
 */
 
 /*
-    thro away code
-     // }
-    // hashOfGameWord[0].forEach(function(hash){
-        // we want to diferentiate if its right or wrong.
-        // console.log(hash)
-        // if (event.key.toUpperCase() === hashOfGameWord[0]){
-        //     console.log("this is correct key:", event.key.toUpperCase())
-        // }
-    // })
+//thro away code
+*/
+
+/*
+// ideas
+
+- so rendering letters after being popped in the proper order seems fairly complex and would most likely mean storing state of the word.
+how about when spliting the words replace that space with something as a place holder. Push that index in the initial rendered _. This
+would require re working current state of selecting next word. maybe a counter for the length of the word matching.
 */
