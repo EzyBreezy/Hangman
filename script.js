@@ -15,17 +15,17 @@ let sec = 00    // start game with 0 sec
 let extra = 2   // add value for correct answers and number of words * future make this a field player can add bonus time value *
 
 //adds word to word list
-let wordList = []         // the list of words entered
+let wordList = ["EZANA", "MULU", "TARGET", "AAA", "DDD"]         // the list of words entered
 let gameWord = []         // the playing word
 let hashOfGameWord = []   // array of gameWord split
 
 //Keyboard array
-let keyboardStrokes = [] // stores key pressed to filter
+let letterGuessed = [] // stores key pressed to filter
+let letterCount = 0 //keeps count of letters that passed test
 
 // Game Logic
-win = 0     // needs work
-lose = 0    // needs work
-letterCount = 0
+let win = 0     // needs work
+let lose = 0    // needs work
 
 submit.addEventListener("click", function buttonClicked() {                             // submit button event listener
     if (word.selectionEnd > 0) {                                                        // looked at the object to see if it has a word greater then 0
@@ -63,9 +63,9 @@ reset.addEventListener("click", function buttonClicked() {      // reset button 
 // function that handles the keyboard listening
 function listener(){
     document.addEventListener("keypress", function keyboard(event) {            // event listener
-        if (keyboardStrokes.indexOf(event.key.toUpperCase()) === -1) {          // only checks if the keypressed wasnt already entered
-            keyboardStrokes.push(event.key.toUpperCase())                       // pushes the value of key pressed to array keyboardStrokes
-            console.log("The values in keyboardStrokes:", keyboardStrokes)      // ***testing***
+        if (letterGuessed.indexOf(event.key.toUpperCase()) === -1) {          // only checks if the keypressed wasnt already entered
+            letterGuessed.push(event.key.toUpperCase())                       // pushes the value of key pressed to array letterGuessed
+            console.log("The values in letterGuessed:", letterGuessed)      // ***testing***
             gameLogic(event)
         }
     })
@@ -150,10 +150,15 @@ function gameLogic(event) {                                                     
                 if (hashOfGameWord[0][hashOfGameWord[0].indexOf(event.key.toUpperCase())] === event.key.toUpperCase()) { // checks hash of game words letters match up.
                     hashOfGameWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, "_")                    // removes the letter at the index
                     addOne()
-                    // console.log("The Words in hashOfGameWord: ", hashOfGameWord[0])                                         // testing prints the current values in hashOfGameWord[0]
-                    // console.log(letterCount)
                     if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {
                         pickOne()
+                        console.log("")
+                        console.log("")
+                        console.log("")
+                        console.log("Inner IF called")
+                        console.log("")
+                        console.log("")
+                        console.log("need to call gameOver")
                     }
                 }
                 
@@ -163,6 +168,11 @@ function gameLogic(event) {                                                     
         }
     } else if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {      // add an && that checks another word is available and call a winner for solving
         pickOne()
+        console.log("")
+        console.log("")
+        console.log("outter IF called")
+        console.log("")
+        console.log("")
     }
 }
 
@@ -171,13 +181,17 @@ function pickOne() {
     addTime()     
     gameWord = []                                                             // adds time to the clock equivelent to the word
     hashOfGameWord = []
-    keyboardStrokes = []
+    letterGuessed = []
     letterCount = 0
     selectWord(wordList)                                                        // picks one word from wordList and asigns it to gameWord
     splitOfWords();                                                             // splits the chosen word and pushes to hashofgamewor
     test()                                                                      // test full of console.log for status
 }
 
+function gameOver() {
+    alert("GameOver")
+
+}
 
 function test(){
     console.log("/// Test Function ///")
@@ -194,7 +208,7 @@ function test(){
     console.log("Letter Count is => ", letterCount)
     console.log("                              ")
     console.log("the input collection is: ")
-    console.log("keyboardStrokes is => ", keyboardStrokes)
+    console.log("letterGuessed is => ", letterGuessed)
     console.log("                              ")
 }
 // sudo code
@@ -223,6 +237,7 @@ function test(){
     substring() & substr() // removes letters from a word
     trim() // removes whitespace
     change color of start to red once word is entered.
+    add a method of updating time value each time is reset to prevent ocasional nun value
 */
 
 /*

@@ -62,11 +62,24 @@ main {
   
 }
 
+#answer-con {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
 #game-image {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+#keyboard {
+  display: flex;
+  flex-direction: row;
+  
 }
 
 #game {
