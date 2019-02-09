@@ -16,7 +16,7 @@ const total = document.getElementById("total")
 const timer = document.getElementById("timer")
 let min = 0     // start game with 0 min
 let sec = 00    // start game with 0 sec
-let extra = 2   // add value for correct answers and number of words * future make this a field player can add bonus time value *
+let extra = 1  // add value for correct answers and number of words * future make this a field player can add bonus time value *
 
 //adds word to word list
 let wordList = []         // the list of words entered
@@ -122,29 +122,31 @@ function addTime(extra) {                                       // executable fu
 //      [x] up scalable
 function countDown() {                                          // countdown function
     let ts = setInterval(function () {
-        if (min > 0) {
+        if (min > 0) {                                          // if minutes are greater then 0
             // we have a min
-            if (sec > 0) {
+            if (sec > 0) {                                      // if sec are greater then 0  remove 1 sec
                 // subtract a sec
-                sec--
-                seconds.innerHTML = sec
+                sec--                                           // remove 1 sec
+                seconds.innerHTML = sec                         // print sec
+                minutes.innerHTML = min                         // print min
             }
-            else if (sec === 0) {
+            else if (sec === 0) {                               // if sec hits 0 add sec
                 // if the sec are finished subtract a min
-                min--
-                sec += 60
-                minutes.innerHTML = min
-                seconds.innerHTML = sec
+                min--                                           // remove 1 min
+                sec += 60                                       // reset sec to 60
+                minutes.innerHTML = min                         // print minutes
+                seconds.innerHTML = sec                         // print sec
             }
         }
         else if (sec > 0) {
             // if we dont have a minute but we have a sec
-            sec--
-            seconds.innerHTML = sec
+            sec--                                               // takes 1 sec
+            seconds.innerHTML = sec                             // print sec
+            minutes.innerHTML = min                             // print min
         }
         // time runs out
-        else if (min === 0 && sec === 0) {
-            alert("Game Over")
+        else if (min === 0 && sec === 0) {                      // if time runs out
+            gameOver()
             clearInterval(ts)
         }
     }, 1000)
@@ -159,16 +161,10 @@ function gameLogic(event) {                                                     
             for (i = 0; i < hashOfGameWord[0].length; i++) {                                                                // for loop that runs for length of word.
                 if (hashOfGameWord[0][hashOfGameWord[0].indexOf(event.key.toUpperCase())] === event.key.toUpperCase()) {    // checks hash of game words letters match up.
                     hashOfGameWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, "_")                    // removes the letter at the index
-                    addOne()
-                    if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {
+                    addOne()                                                                                                // add one to counter
+                    if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {                // if more games are available to pick continue
                         pickOne()
-                        console.log("")
-                        console.log("")
-                        console.log("")
-                        console.log("Inner IF called")
-                        console.log("")
-                        console.log("")
-                    } else if (wordList.hasOwnProperty([0]) === false && hashOfGameWord[0].length === letterCount) {
+                    } else if (wordList.hasOwnProperty([0]) === false && hashOfGameWord[0].length === letterCount) {        // if no more words to pick game is over
                         gameOver()
                     }
                 }
@@ -183,12 +179,11 @@ function gameLogic(event) {                                                     
 }
 
 function pickOne() {
-    console.log("Did i run")
-    addTime()     
-    gameWord = []                                                             // adds time to the clock equivelent to the word
-    hashOfGameWord = []
-    letterGuessed = []
-    letterCount = 0
+    addTime(extra)                                                              // adds time for every correct word completed
+    gameWord = []                                                               // reset gameWord to empty array to be filled with new word
+    hashOfGameWord = []                                                         // reset hashOfGameWord to empty array
+    letterGuessed = []                                                          // reset guessed letters array
+    letterCount = 0                                                             // letter count tracker reset to 0
     selectWord(wordList)                                                        // picks one word from wordList and asigns it to gameWord
     splitOfWords();                                                             // splits the chosen word and pushes to hashofgamewor
     test()                                                                      // test full of console.log for status
@@ -197,6 +192,12 @@ function pickOne() {
 function gameOver() {
     alert("GameOver")
     min = 0
+    sec = 0
+    minutes.innerHTML = min
+    seconds.innerHTML = sec
+    gameWord = []
+    letterGuessed = []
+    letterCount = 0
 }
 
 function test(){
