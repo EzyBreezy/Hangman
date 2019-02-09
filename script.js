@@ -180,15 +180,6 @@ function gameLogic(event) {                                                     
             // add a way to keep track of key now un available letters
         }
     } 
-    // else if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {      // add an && that checks another word is available and call a winner for solving
-    //     pickOne()
-    //     console.log("")
-    //     console.log("")
-    //     console.log("outter IF is not called")
-    //     console.log("")
-    //     console.log("")
-    //     // this never gets called re-evaluate if its needed
-    // }
 }
 
 function pickOne() {
