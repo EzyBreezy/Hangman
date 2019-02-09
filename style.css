@@ -25,6 +25,9 @@ a {
   color: var(--color-2);
   font-size: 20px;
   font-weight: 600;
+  /* animation */
+  transition-timing-function: ease-in-out;
+  transition-duration: 200ms;
 }
 a:hover {
   color: var(--color-4);

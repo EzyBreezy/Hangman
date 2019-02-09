@@ -23,6 +23,9 @@ let wordList = ["MULU", "AAA", "DDD"]         // the list of words entered
 let gameWord = []         // the playing word
 let hashOfGameWord = []   // array of gameWord split
 
+// print of guess spaces
+let guess = document.getElementById("guess");
+
 //Keyboard array
 let letterGuessed = [] // stores key pressed to filter
 let letterCount = 0 //keeps count of letters that passed test
@@ -146,12 +149,14 @@ function countDown() {                                          // countdown fun
     }, 1000)
 }
 
-function gameLogic(event) {                                                                                         // Game Logic Function
+function gameLogic(event) {                                                                                                 // Game Logic Function
     if (hashOfGameWord[0].length > letterCount) {
-        if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {                                           // returns boolean and expects true
-            console.log("You got it right I found ", event.key.toUpperCase());                                          // *TESTING* Notifies that it found that key.
-            for (i = 0; i < hashOfGameWord[0].length; i++) {                                                               // for loop that runs for length of word.
-                if (hashOfGameWord[0][hashOfGameWord[0].indexOf(event.key.toUpperCase())] === event.key.toUpperCase()) { // checks hash of game words letters match up.
+        if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {                                               // returns boolean and expects true
+            console.log("You got it right I found ", event.key.toUpperCase());                                              // *TESTING* Notifies that it found that key.
+            // add a color indicator for correct key
+            // add way to keep track of now un available letters
+            for (i = 0; i < hashOfGameWord[0].length; i++) {                                                                // for loop that runs for length of word.
+                if (hashOfGameWord[0][hashOfGameWord[0].indexOf(event.key.toUpperCase())] === event.key.toUpperCase()) {    // checks hash of game words letters match up.
                     hashOfGameWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, "_")                    // removes the letter at the index
                     addOne()
                     if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {
@@ -170,6 +175,8 @@ function gameLogic(event) {                                                     
             }
         } else if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === false) {                                   // checks for a false boolean for k
             console.log("You got it wrong I didnt find ", event.key.toUpperCase())
+            // add a way to notify wrong letters
+            // add a way to keep track of key now un available letters
         }
     } else if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {      // add an && that checks another word is available and call a winner for solving
         pickOne()
@@ -178,6 +185,7 @@ function gameLogic(event) {                                                     
         console.log("outter IF is not called")
         console.log("")
         console.log("")
+        // this never gets called re-evaluate if its needed
     }
 }
 
@@ -225,10 +233,10 @@ function test(){
     words are converted to all caps. *DONE*
     words are pushed to wordLIST *DONE*
     add event listener for start. *DONE*
-    hide submit and word.
-    timer starts counting down. *DONE*
+    hide submit and word. ** Need to work on this **
+    timer starts counting down. *DONE but needs some work*
     randomly select one of the words from the word bank. *DONE*
-    create a number of _ _ _ _ for each letter of the word.
+    create a number of _ _ _ _ for each letter of the word. ** Need to work on this **
     add event listener to keystrokes.
     filter right letters pressed vs wrong letters pressed
 
