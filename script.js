@@ -19,7 +19,7 @@ let sec = 00    // start game with 0 sec
 let extra = 2   // add value for correct answers and number of words * future make this a field player can add bonus time value *
 
 //adds word to word list
-let wordList = ["MULU", "AAA", "DDD"]         // the list of words entered
+let wordList = []         // the list of words entered
 let gameWord = []         // the playing word
 let hashOfGameWord = []   // array of gameWord split
 
@@ -39,6 +39,7 @@ submit.addEventListener("click", function buttonClicked() {                     
         wordList.push(word.value.toUpperCase())                                         // pushes the word too wordList array
         console.log("The word pushed on submit is ", wordList)                          // testing purpose
         addTime(extra)                                                                  // add extra time for each word entered overall
+        total.innerHTML = wordList.length
         minutes.innerHTML = min                                                         // Shows bonus time for words
         word.value = ""                                                                 // clears the value on submit
     }
@@ -178,15 +179,16 @@ function gameLogic(event) {                                                     
             // add a way to notify wrong letters
             // add a way to keep track of key now un available letters
         }
-    } else if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {      // add an && that checks another word is available and call a winner for solving
-        pickOne()
-        console.log("")
-        console.log("")
-        console.log("outter IF is not called")
-        console.log("")
-        console.log("")
-        // this never gets called re-evaluate if its needed
-    }
+    } 
+    // else if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {      // add an && that checks another word is available and call a winner for solving
+    //     pickOne()
+    //     console.log("")
+    //     console.log("")
+    //     console.log("outter IF is not called")
+    //     console.log("")
+    //     console.log("")
+    //     // this never gets called re-evaluate if its needed
+    // }
 }
 
 function pickOne() {
@@ -203,6 +205,7 @@ function pickOne() {
 
 function gameOver() {
     alert("GameOver")
+    min = 0
 }
 
 function test(){
