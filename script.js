@@ -8,6 +8,10 @@ const reset = document.getElementById("reset");
 const minutes = document.getElementById("minutes");
 const seconds = document.getElementById("seconds");
 
+// answer
+const answer = document.getElementById("correct");
+const total = document.getElementById("total")
+
 // timer variables for html document
 const timer = document.getElementById("timer")
 let min = 0     // start game with 0 min
@@ -15,7 +19,7 @@ let sec = 00    // start game with 0 sec
 let extra = 2   // add value for correct answers and number of words * future make this a field player can add bonus time value *
 
 //adds word to word list
-let wordList = ["EZANA", "MULU", "TARGET", "AAA", "DDD"]         // the list of words entered
+let wordList = ["MULU", "AAA", "DDD"]         // the list of words entered
 let gameWord = []         // the playing word
 let hashOfGameWord = []   // array of gameWord split
 
@@ -158,7 +162,8 @@ function gameLogic(event) {                                                     
                         console.log("Inner IF called")
                         console.log("")
                         console.log("")
-                        console.log("need to call gameOver")
+                    } else if (wordList.hasOwnProperty([0]) === false && hashOfGameWord[0].length === letterCount) {
+                        gameOver()
                     }
                 }
                 
@@ -170,7 +175,7 @@ function gameLogic(event) {                                                     
         pickOne()
         console.log("")
         console.log("")
-        console.log("outter IF called")
+        console.log("outter IF is not called")
         console.log("")
         console.log("")
     }
@@ -190,7 +195,6 @@ function pickOne() {
 
 function gameOver() {
     alert("GameOver")
-
 }
 
 function test(){
