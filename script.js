@@ -1,5 +1,5 @@
 // time stamp
-let ts = setInterval(countDown, 1000)
+let play = true
 
 // 4 input fields on page
 const submit = document.getElementById("submit");
@@ -52,7 +52,7 @@ submit.addEventListener("click", function buttonClicked() {                     
 })
 
 start.addEventListener("click", function buttonClicked() {                              // start button event listener
-    ts()
+    play = true
     if (gameWord.hasOwnProperty([0]) === false) {                                       // checks to make sure current game isnt active
         if (wordList.hasOwnProperty([0]) === true) {                                    // can only start the game if the wordList has words to play with.
             selectWord(wordList)                                                        // picks one word from wordList
@@ -73,7 +73,7 @@ reset.addEventListener("click", function buttonClicked() {      // reset button 
 
 
 // function that handles the keyboard listening
-function listener(){
+function listener() {
     document.addEventListener("keypress", function keyboard(event) {            // event listener
         if (letterGuessed.indexOf(event.key.toUpperCase()) === -1) {          // only checks if the keypressed wasnt already entered
             letterGuessed.push(event.key.toUpperCase())                       // pushes the value of key pressed to array letterGuessed
@@ -85,7 +85,7 @@ function listener(){
 
 // adds 1 to letterCount to keep status of game
 //      [x] adds 1 to the variable letterCount
-function addOne(){
+function addOne() {
     letterCount += 1
 }
 
@@ -124,35 +124,48 @@ function addTime(extra) {                                       // executable fu
 //      [x] takes the value of minutes 
 //      and counts down from that value
 //      [x] up scalable
-function countDown(ts) {                                      // countdown function
-    if (min > 0) {                                          // if minutes are greater then 0
-        // we have a min
-        if (sec > 0) {                                      // if sec are greater then 0  remove 1 sec
-            // subtract a sec
-            sec--                                           // remove 1 sec
-            seconds.innerHTML = sec                         // print sec
-            minutes.innerHTML = min                         // print min
+//      [ ] switch to indicate if game is paused, ended, or playing
+
+function countDown() {                                      // countdown function
+    let ts = setInterval(function () {
+        if (play === true) {
+            if (min > 0) {                                          // if minutes are greater then 0
+                // we have a min
+                if (sec > 0) {                                      // if sec are greater then 0  remove 1 sec
+                    // subtract a sec
+                    sec--                                           // remove 1 sec
+                    seconds.innerHTML = sec                         // print sec
+                    minutes.innerHTML = min                         // print min
+                }
+                else if (sec === 0) {                               // if sec hits 0 add sec
+                    // if the sec are finished subtract a min
+                    min--                                           // remove 1 min
+                    sec += 60                                       // reset sec to 60
+                    minutes.innerHTML = min                         // print minutes
+                    seconds.innerHTML = sec                         // print sec
+                }
+            }
+            else if (sec > 0) {
+                // if we dont have a minute but we have a sec
+                sec--                                               // takes 1 sec
+                seconds.innerHTML = sec                             // print sec
+                minutes.innerHTML = min                             // print min
+            }
+            // time runs out
+            else if (min === 0 && sec === 0) {                      // if time runs out
+                minutes.innerHTML = min
+                seconds.innerHTML = sec
+                clearInterval(ts)
+                alert("Time ran out! T_T")
+            }
+        } else if (play === false) {
+            min = 0
+            sec = 00
+            minutes.innerHTML = min
+            seconds.innerHTML = sec
+            clearInterval(ts)
         }
-        else if (sec === 0) {                               // if sec hits 0 add sec
-            // if the sec are finished subtract a min
-            min--                                           // remove 1 min
-            sec += 60                                       // reset sec to 60
-            minutes.innerHTML = min                         // print minutes
-            seconds.innerHTML = sec                         // print sec
-        }
-    }
-    else if (sec > 0) {
-        // if we dont have a minute but we have a sec
-        sec--                                               // takes 1 sec
-        seconds.innerHTML = sec                             // print sec
-        minutes.innerHTML = min                             // print min
-    }
-    // time runs out
-    else if (min === 0 && sec === 0) {                      // if time runs out
-        // gameOver()
-        clearInterval(ts)
-        alert("Time ran out! T_T")
-    }
+    }, 1000)
 }
 
 function timeStop(ts) {
@@ -175,14 +188,14 @@ function gameLogic(event) {                                                     
                         gameOver()
                     }
                 }
-                
+
             }
         } else if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === false) {                                   // checks for a false boolean for k
             console.log("You got it wrong I didnt find ", event.key.toUpperCase())
             // add a way to notify wrong letters
             // add a way to keep track of key now un available letters
         }
-    } 
+    }
 }
 
 function pickOne() {
@@ -198,8 +211,7 @@ function pickOne() {
 
 function gameOver() {
     alert("You won!")
-    min = 0
-    sec = 0
+    play = false
     minutes.innerHTML = min
     seconds.innerHTML = sec
     gameWord = []
@@ -207,7 +219,7 @@ function gameOver() {
     letterCount = 0
 }
 
-function test(){
+function test() {
     console.log("/// Test Function ///")
     console.log("the list of words in game are: ")
     console.log("wordList is => ", wordList)
