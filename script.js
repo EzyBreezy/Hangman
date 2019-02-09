@@ -1,3 +1,6 @@
+// time stamp
+let ts = setInterval(countDown, 1000)
+
 // 4 input fields on page
 const submit = document.getElementById("submit");
 const word = document.getElementById("word")
@@ -49,6 +52,7 @@ submit.addEventListener("click", function buttonClicked() {                     
 })
 
 start.addEventListener("click", function buttonClicked() {                              // start button event listener
+    ts()
     if (gameWord.hasOwnProperty([0]) === false) {                                       // checks to make sure current game isnt active
         if (wordList.hasOwnProperty([0]) === true) {                                    // can only start the game if the wordList has words to play with.
             selectWord(wordList)                                                        // picks one word from wordList
@@ -120,36 +124,39 @@ function addTime(extra) {                                       // executable fu
 //      [x] takes the value of minutes 
 //      and counts down from that value
 //      [x] up scalable
-function countDown() {                                          // countdown function
-    let ts = setInterval(function () {
-        if (min > 0) {                                          // if minutes are greater then 0
-            // we have a min
-            if (sec > 0) {                                      // if sec are greater then 0  remove 1 sec
-                // subtract a sec
-                sec--                                           // remove 1 sec
-                seconds.innerHTML = sec                         // print sec
-                minutes.innerHTML = min                         // print min
-            }
-            else if (sec === 0) {                               // if sec hits 0 add sec
-                // if the sec are finished subtract a min
-                min--                                           // remove 1 min
-                sec += 60                                       // reset sec to 60
-                minutes.innerHTML = min                         // print minutes
-                seconds.innerHTML = sec                         // print sec
-            }
+function countDown(ts) {                                      // countdown function
+    if (min > 0) {                                          // if minutes are greater then 0
+        // we have a min
+        if (sec > 0) {                                      // if sec are greater then 0  remove 1 sec
+            // subtract a sec
+            sec--                                           // remove 1 sec
+            seconds.innerHTML = sec                         // print sec
+            minutes.innerHTML = min                         // print min
         }
-        else if (sec > 0) {
-            // if we dont have a minute but we have a sec
-            sec--                                               // takes 1 sec
-            seconds.innerHTML = sec                             // print sec
-            minutes.innerHTML = min                             // print min
+        else if (sec === 0) {                               // if sec hits 0 add sec
+            // if the sec are finished subtract a min
+            min--                                           // remove 1 min
+            sec += 60                                       // reset sec to 60
+            minutes.innerHTML = min                         // print minutes
+            seconds.innerHTML = sec                         // print sec
         }
-        // time runs out
-        else if (min === 0 && sec === 0) {                      // if time runs out
-            gameOver()
-            clearInterval(ts)
-        }
-    }, 1000)
+    }
+    else if (sec > 0) {
+        // if we dont have a minute but we have a sec
+        sec--                                               // takes 1 sec
+        seconds.innerHTML = sec                             // print sec
+        minutes.innerHTML = min                             // print min
+    }
+    // time runs out
+    else if (min === 0 && sec === 0) {                      // if time runs out
+        // gameOver()
+        clearInterval(ts)
+        alert("Time ran out! T_T")
+    }
+}
+
+function timeStop(ts) {
+    clearInterval(ts)
 }
 
 function gameLogic(event) {                                                                                                 // Game Logic Function
@@ -190,7 +197,7 @@ function pickOne() {
 }
 
 function gameOver() {
-    alert("GameOver")
+    alert("You won!")
     min = 0
     sec = 0
     minutes.innerHTML = min
