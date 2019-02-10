@@ -58,6 +58,11 @@ main {
   align-items: center;
 }
 
+/* target the p tag inside timer */
+#timer p {
+  padding: 4px;
+}
+
 #game-detail {
   display: flex;
   justify-content: space-evenly;

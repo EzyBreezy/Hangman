@@ -69,12 +69,19 @@ start.addEventListener("click", function buttonClicked() {                      
 
 reset.addEventListener("click", function buttonClicked() {      // reset button event listener
     window.alert("reset works")                                 // needs work
+    sec = "00"
+    min = "0"
+    seconds.innerHTML = sec
+    minutes.innerHTML = min
+    document.removeEventListener("keypress", (event) => {
+        console.log(event)
+    })
 })
 
 
 // function that handles the keyboard listening
 function listener() {
-    document.addEventListener("keypress", function keyboard(event) {            // event listener
+    document.addEventListener("keypress", (event) => {            // event listener
         if (letterGuessed.indexOf(event.key.toUpperCase()) === -1) {          // only checks if the keypressed wasnt already entered
             letterGuessed.push(event.key.toUpperCase())                       // pushes the value of key pressed to array letterGuessed
             console.log("The values in letterGuessed:", letterGuessed)      // ***testing***
@@ -82,6 +89,8 @@ function listener() {
         }
     })
 }
+
+
 
 // adds 1 to letterCount to keep status of game
 //      [x] adds 1 to the variable letterCount
@@ -101,7 +110,7 @@ function checkEach(lettersArr, key) {
 // function that splits the game word
 //      [x] splits the game word
 function splitOfWords() {
-    hashOfGameWord.push(gameWord[0].split(""))                                      // brakes the game word into individual arrays of each letter
+    hashOfGameWord.push(gameWord[0].split(""))                          // brakes the game word into individual arrays of each letter
 }
 
 
@@ -112,6 +121,7 @@ function splitOfWords() {
 function selectWord(wordList) {                                          // picks a word out
     gameWord.push(wordList[Math.floor(Math.random() * wordList.length)]) // picks a random word if more than 1
     wordList.splice(wordList.indexOf(gameWord[0]), 1)                    // splice method to remove using indexOf and setting number of words to be removed too 1
+    test()
 }
 
 // function to add time
@@ -124,7 +134,7 @@ function addTime(extra) {                                       // executable fu
 //      [x] takes the value of minutes 
 //      and counts down from that value
 //      [x] up scalable
-//      [ ] switch to indicate if game is paused, ended, or playing
+//      [x] switch to indicate if game is paused, ended, or playing
 
 function countDown() {                                      // countdown function
     let ts = setInterval(function () {
@@ -185,7 +195,7 @@ function gameLogic(event) {                                                     
                     if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {                // if more games are available to pick continue
                         pickOne()
                     } else if (wordList.hasOwnProperty([0]) === false && hashOfGameWord[0].length === letterCount) {        // if no more words to pick game is over
-                        gameOver()
+                        youWin()
                     }
                 }
 
@@ -198,6 +208,7 @@ function gameLogic(event) {                                                     
     }
 }
 
+
 function pickOne() {
     addTime(extra)                                                              // adds time for every correct word completed
     gameWord = []                                                               // reset gameWord to empty array to be filled with new word
@@ -205,11 +216,10 @@ function pickOne() {
     letterGuessed = []                                                          // reset guessed letters array
     letterCount = 0                                                             // letter count tracker reset to 0
     selectWord(wordList)                                                        // picks one word from wordList and asigns it to gameWord
-    splitOfWords();                                                             // splits the chosen word and pushes to hashofgamewor
-    test()                                                                      // test full of console.log for status
+    splitOfWords();                                                             // splits the chosen word and pushes to hashofgamewor                                                                   // test full of console.log for status
 }
 
-function gameOver() {
+function youWin() {
     alert("You won!")
     play = false
     minutes.innerHTML = min
@@ -217,6 +227,7 @@ function gameOver() {
     gameWord = []
     letterGuessed = []
     letterCount = 0
+    console.log("You won! Congratulations <(^_^)>")
 }
 
 function test() {
