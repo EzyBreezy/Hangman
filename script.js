@@ -31,7 +31,7 @@ let displayWord = []      // the displayed array of letters
 let render = document.getElementById("guess");
 
 //Keyboard array
-let letterGuessed = [] // stores key pressed to filter
+let letterGuessed = [] // stores key pressed to filter to prevent redundancy 
 let letterCount = 0 //keeps count of letters that passed test
 
 // Game Logic
@@ -81,6 +81,34 @@ reset.addEventListener("click", function buttonClicked() {      // reset button 
     })
 })
 
+function gameLogic(event) {                                                                                                 // Game Logic Function
+    if (hashOfGameWord[0].length > letterCount) {                                                                           // if the length of the split word is greater then total letter count
+        if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {                                               // returns boolean and expects true when checking each key vs each letter
+            console.log("You got it right I found ", event.key.toUpperCase());                                              // *TESTING* Notifies that it found that key.
+            // add a color indicator for correct key
+            // add way to keep track of now un available letters
+            for (i = 0; i < hashOfGameWord[0].length; i++) {                                                                // for loop that runs for length of word.
+                if (hashOfGameWord[0][hashOfGameWord[0].indexOf(event.key.toUpperCase())] === event.key.toUpperCase()) {    // checks hash of game words letters match up.
+                    displayWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, event.key.toUpperCase())
+                    renderWord()
+                    hashOfGameWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, "_")                    // removes the letter at the index
+                    addOne()                                                                                                // add one to counter
+                    if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {                // if more games are available to pick continue
+                        pickOne()
+                    } else if (wordList.hasOwnProperty([0]) === false && hashOfGameWord[0].length === letterCount) {        // if no more words to pick game is over
+                        youWin()
+                    }
+                }
+
+            }
+        } else if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === false) {                                   // checks for a false boolean for k
+            console.log("You got it wrong I didnt find ", event.key.toUpperCase())
+            // add a way to notify wrong letters
+            // add a way to keep track of key now un available letters
+        }
+    }
+}
+
 
 // function that handles the keyboard listening
 function listener() {
@@ -112,7 +140,6 @@ function checkEach(lettersArr, key) {
 
 // function that splits the game word
 //      [x] splits the game word
-
 function splitOfWords() {
     hashOfGameWord.push(gameWord[0].split(""))                          // brakes the game word into individual arrays of each letter
 }
@@ -120,7 +147,7 @@ function splitOfWords() {
 // function that renders "_" for each letter
 //      [x] renders the empty space platform as " _ "
 function guessSpace() {
-    displayWord.push("_".repeat(gameWord[0].length).split(""))
+    displayWord.push("_".repeat(gameWord[0].length).split(""))  // creates "_" space for game word render
 }
 
 // function that joins the word rendered and displays the value.
@@ -145,84 +172,9 @@ function addTime(extra) {                                       // executable fu
     min += extra                                                // adds the time and stores that time in minutes
 }
 
-// function that counts down
-//      [x] takes the value of minutes 
-//      and counts down from that value
-//      [x] up scalable
-//      [x] switch to indicate if game is paused, ended, or playing
-
-function countDown() {                                      // countdown function
-    let ts = setInterval(function () {
-        if (play === true) {
-            if (min > 0) {                                          // if minutes are greater then 0
-                // we have a min
-                if (sec > 0) {                                      // if sec are greater then 0  remove 1 sec
-                    // subtract a sec
-                    sec--                                           // remove 1 sec
-                    seconds.innerHTML = sec                         // print sec
-                    minutes.innerHTML = min                         // print min
-                }
-                else if (sec === 0) {                               // if sec hits 0 add sec
-                    // if the sec are finished subtract a min
-                    min--                                           // remove 1 min
-                    sec += 60                                       // reset sec to 60
-                    minutes.innerHTML = min                         // print minutes
-                    seconds.innerHTML = sec                         // print sec
-                }
-            }
-            else if (sec > 0) {
-                // if we dont have a minute but we have a sec
-                sec--                                               // takes 1 sec
-                seconds.innerHTML = sec                             // print sec
-                minutes.innerHTML = min                             // print min
-            }
-            // time runs out
-            else if (min === 0 && sec === 0) {                      // if time runs out
-                minutes.innerHTML = min
-                seconds.innerHTML = sec
-                clearInterval(ts)
-                window.alert("Time ran out! T_T")
-            }
-        } else if (play === false) {
-            min = 0
-            sec = 00
-            minutes.innerHTML = min
-            seconds.innerHTML = sec
-            clearInterval(ts)
-        }
-    }, 1000)
-}
 
 function timeStop(ts) {
-    clearInterval(ts)
-}
-
-function gameLogic(event) {                                                                                                 // Game Logic Function
-    if (hashOfGameWord[0].length > letterCount) {                                                                           // if the length of the split word is greater then total letter count
-        if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {                                               // returns boolean and expects true when checking each key vs each letter
-            console.log("You got it right I found ", event.key.toUpperCase());                                              // *TESTING* Notifies that it found that key.
-            // add a color indicator for correct key
-            // add way to keep track of now un available letters
-            for (i = 0; i < hashOfGameWord[0].length; i++) {                                                                // for loop that runs for length of word.
-                if (hashOfGameWord[0][hashOfGameWord[0].indexOf(event.key.toUpperCase())] === event.key.toUpperCase()) {    // checks hash of game words letters match up.
-                    displayWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, event.key.toUpperCase())
-                    renderWord()
-                    hashOfGameWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, "_")                    // removes the letter at the index
-                    addOne()                                                                                                // add one to counter
-                    if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {                // if more games are available to pick continue
-                        pickOne()
-                    } else if (wordList.hasOwnProperty([0]) === false && hashOfGameWord[0].length === letterCount) {        // if no more words to pick game is over
-                        youWin()
-                    }
-                }
-
-            }
-        } else if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === false) {                                   // checks for a false boolean for k
-            console.log("You got it wrong I didnt find ", event.key.toUpperCase())
-            // add a way to notify wrong letters
-            // add a way to keep track of key now un available letters
-        }
-    }
+    clearInterval(ts)   // stops time counter
 }
 
 
@@ -271,55 +223,86 @@ function test() {
     console.log("displayWord is => ", displayWord)
     console.log("                              ")
 }
+
+// function that counts down
+//      [x] takes the value of minutes 
+//      and counts down from that value
+//      [x] up scalable meaning can add extra time
+//      [x] switch to indicate if game has ended, or still in play
+
+function countDown() {                                      // countdown function
+    let ts = setInterval(function () {
+        if (play === true) {
+            if (min > 0) {                                          // if minutes are greater then 0
+                // we have a min
+                if (sec > 0) {                                      // if sec are greater then 0  remove 1 sec
+                    // subtract a sec
+                    sec--                                           // remove 1 sec
+                    seconds.innerHTML = sec                         // print sec
+                    minutes.innerHTML = min                         // print min
+                }
+                else if (sec === 0) {                               // if sec hits 0 add sec
+                    // if the sec are finished subtract a min
+                    min--                                           // remove 1 min
+                    sec += 60                                       // reset sec to 60
+                    minutes.innerHTML = min                         // print minutes
+                    seconds.innerHTML = sec                         // print sec
+                }
+            }
+            else if (sec > 0) {
+                // if we dont have a minute but we have a sec
+                sec--                                               // takes 1 sec
+                seconds.innerHTML = sec                             // print sec
+                minutes.innerHTML = min                             // print min
+            }
+            // time runs out
+            else if (min === 0 && sec === 0) {                      // if time runs out
+                minutes.innerHTML = min
+                seconds.innerHTML = sec
+                clearInterval(ts)
+                window.alert("Time ran out! T_T")
+            }
+        } else if (play === false) {
+            min = 0
+            sec = 00
+            minutes.innerHTML = min
+            seconds.innerHTML = sec
+            clearInterval(ts)
+        }
+    }, 1000)
+}
+
+
+
+
 // sudo code
 
 /*
-
-    friend or player enters number of words. *DONE*
-    event listener for submit box. *DONE*
+    // to do's
     onClick let user know button was hit some way.  **Need to work on this**
-    words are converted to all caps. *DONE*
-    words are pushed to wordLIST *DONE*
-    add event listener for start. *DONE*
     hide submit and word. ** Need to work on this **
-    timer starts counting down. *DONE but needs some work*
-    randomly select one of the words from the word bank. *DONE*
-    create a number of _ _ _ _ for each letter of the word. ** Need to work on this **
-    add event listener to keystrokes.
-    filter right letters pressed vs wrong letters pressed
-
-    check for duplicate word entries
-    check for empty string entries
+    check for duplicate word entries *Need to work on this.*
+    check for empty string entries *Need to work on this.*
+    keep track of players right and wrong answers. *Need to work on this* 
+    timer starts counting down. *DONE need to work on this*
+    hangman sprite in images folder. each sprite 200 apart.
 */
 
 
 /*
+    // cool javascript
     substring() & substr() // removes letters from a word
     trim() // removes whitespace
     change color of start to red once word is entered.
     add a method of updating time value each time is reset to prevent ocasional nun value
 */
 
-/*
-//acomplishments
-- Got Timer to function, YAY!
-- Removing word from wordList is working like a charm, YAY!
-- keyStrokes are working!
-- some() is functioning! huge props!
-*/
-
-/*
-//thro away code
-*/
 
 /*
 // ideas
-
-- total words
-- total correct
-- streak of words
-
-- so rendering letters after being popped in the proper order seems fairly complex and would most likely mean storing state of the word.
-how about when spliting the words replace that space with something as a place holder. Push that index in the initial rendered _. This
-would require re working current state of selecting next word. maybe a counter for the length of the word matching.
+[ ] total words - Instead of counting total number of words input. Count completed words instead. Example would be if I have 10 words got 5 word entries but only 2 right I would see 2 / 5
+[ ] streak of words - If I got a streak show a number value for how many I got correct.
+[ ] Completed Words list - A library of words I completed.
+[ ] 1 Player Mode - Single player mode would have a json list of words
+[ ] 2 Player Mode - current game but an option to select it.
 */
