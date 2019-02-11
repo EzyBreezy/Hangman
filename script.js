@@ -25,6 +25,7 @@ let extra = 1  // add value for correct answers and number of words * future mak
 let wordList = []         // the list of words entered
 let gameWord = []         // the playing word
 let hashOfGameWord = []   // array of gameWord split
+let displayWord = []      // the displayed array of letters
 
 // print of guess spaces
 let guess = document.getElementById("guess");
@@ -56,9 +57,12 @@ start.addEventListener("click", function buttonClicked() {                      
     if (gameWord.hasOwnProperty([0]) === false) {                                       // checks to make sure current game isnt active
         if (wordList.hasOwnProperty([0]) === true) {                                    // can only start the game if the wordList has words to play with.
             selectWord(wordList)                                                        // picks one word from wordList
-            splitOfWords();
+            guessSpace()                                                                // creates " _ " to be rendered
+            renderWord()                                                                // renders word
+            console.log("the game word length is = ", gameWord[0].length)               // ** test that shows length of word **
+            splitOfWords();                                                             // splits the chosen gameword into an array of individual letters
             countDown();                                                                // Clock starts ticking
-            listener()
+            listener()                                                                  // listens for keyboard input
         }
         else if (wordList.hasOwnProperty([0]) === false) {                              // if false
             window.alert("I need some words!")                                          // lets player know needs more words
@@ -109,17 +113,29 @@ function checkEach(lettersArr, key) {
 
 // function that splits the game word
 //      [x] splits the game word
+
 function splitOfWords() {
     hashOfGameWord.push(gameWord[0].split(""))                          // brakes the game word into individual arrays of each letter
 }
 
+// function that renders "_" for each letter
+//      [x] renders the empty space platform as " _ "
+function guessSpace() {
+    displayWord.push("_".repeat(gameWord[0].length).split(""))
+}
+
+// function that joins the word rendered and displays the value.
+//      [x] reusable function that renders the played word.
+function renderWord() {
+    guess.innerHTML = displayWord[0].join(" ")
+}
 
 // function to pick a word
 //      [x] picks a word randomly
 //      [x] removes the word from the list of words 
 //          if being played
 function selectWord(wordList) {                                          // picks a word out
-    gameWord.push(wordList[Math.floor(Math.random() * wordList.length)]) // picks a random word if more than 1
+    gameWord.push(wordList[Math.floor(Math.random() * wordList.length)]) // picks a random word
     wordList.splice(wordList.indexOf(gameWord[0]), 1)                    // splice method to remove using indexOf and setting number of words to be removed too 1
     test()
 }
@@ -183,13 +199,15 @@ function timeStop(ts) {
 }
 
 function gameLogic(event) {                                                                                                 // Game Logic Function
-    if (hashOfGameWord[0].length > letterCount) {
-        if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {                                               // returns boolean and expects true
+    if (hashOfGameWord[0].length > letterCount) {                                                                           // if the length of the split word is greater then total letter count
+        if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {                                               // returns boolean and expects true when checking each key vs each letter
             console.log("You got it right I found ", event.key.toUpperCase());                                              // *TESTING* Notifies that it found that key.
             // add a color indicator for correct key
             // add way to keep track of now un available letters
             for (i = 0; i < hashOfGameWord[0].length; i++) {                                                                // for loop that runs for length of word.
                 if (hashOfGameWord[0][hashOfGameWord[0].indexOf(event.key.toUpperCase())] === event.key.toUpperCase()) {    // checks hash of game words letters match up.
+                    // 
+                    
                     hashOfGameWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, "_")                    // removes the letter at the index
                     addOne()                                                                                                // add one to counter
                     if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {                // if more games are available to pick continue
@@ -247,6 +265,9 @@ function test() {
     console.log("the input collection is: ")
     console.log("letterGuessed is => ", letterGuessed)
     console.log("                              ")
+    console.log("the visable word to players is: ")
+    console.log("displayWord is => ", displayWord)
+    console.log("                              ")
 }
 // sudo code
 
@@ -291,6 +312,10 @@ function test() {
 
 /*
 // ideas
+
+- total words
+- total correct
+- streak of words
 
 - so rendering letters after being popped in the proper order seems fairly complex and would most likely mean storing state of the word.
 how about when spliting the words replace that space with something as a place holder. Push that index in the initial rendered _. This
