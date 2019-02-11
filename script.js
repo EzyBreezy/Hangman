@@ -28,7 +28,7 @@ let hashOfGameWord = []   // array of gameWord split
 let displayWord = []      // the displayed array of letters
 
 // print of guess spaces
-let guess = document.getElementById("guess");
+let render = document.getElementById("guess");
 
 //Keyboard array
 let letterGuessed = [] // stores key pressed to filter
@@ -72,9 +72,8 @@ start.addEventListener("click", function buttonClicked() {                      
 
 
 reset.addEventListener("click", function buttonClicked() {      // reset button event listener
-    window.alert("reset works")                                 // needs work
-    sec = "00"
-    min = "0"
+    sec = 00
+    min = 00
     seconds.innerHTML = sec
     minutes.innerHTML = min
     document.removeEventListener("keypress", (event) => {
@@ -127,7 +126,7 @@ function guessSpace() {
 // function that joins the word rendered and displays the value.
 //      [x] reusable function that renders the played word.
 function renderWord() {
-    guess.innerHTML = displayWord[0].join(" ")
+    render.innerHTML = displayWord[0].join(" ")
 }
 
 // function to pick a word
@@ -182,7 +181,7 @@ function countDown() {                                      // countdown functio
                 minutes.innerHTML = min
                 seconds.innerHTML = sec
                 clearInterval(ts)
-                alert("Time ran out! T_T")
+                window.alert("Time ran out! T_T")
             }
         } else if (play === false) {
             min = 0
@@ -206,8 +205,8 @@ function gameLogic(event) {                                                     
             // add way to keep track of now un available letters
             for (i = 0; i < hashOfGameWord[0].length; i++) {                                                                // for loop that runs for length of word.
                 if (hashOfGameWord[0][hashOfGameWord[0].indexOf(event.key.toUpperCase())] === event.key.toUpperCase()) {    // checks hash of game words letters match up.
-                    // 
-                    
+                    displayWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, event.key.toUpperCase())
+                    renderWord()
                     hashOfGameWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, "_")                    // removes the letter at the index
                     addOne()                                                                                                // add one to counter
                     if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {                // if more games are available to pick continue
@@ -233,8 +232,11 @@ function pickOne() {
     hashOfGameWord = []                                                         // reset hashOfGameWord to empty array
     letterGuessed = []                                                          // reset guessed letters array
     letterCount = 0                                                             // letter count tracker reset to 0
+    displayWord = []
     selectWord(wordList)                                                        // picks one word from wordList and asigns it to gameWord
-    splitOfWords();                                                             // splits the chosen word and pushes to hashofgamewor                                                                   // test full of console.log for status
+    splitOfWords();                                                             // splits the chosen word and pushes to hashofgamewor
+    guessSpace()
+    renderWord()                                                                  // test full of console.log for status
 }
 
 function youWin() {
