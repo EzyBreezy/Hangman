@@ -7,6 +7,10 @@ const word = document.getElementById("word")
 const start = document.getElementById("start");
 const reset = document.getElementById("reset");
 
+//hangman image
+let position = 0
+
+
 // timer updates
 const minutes = document.getElementById("minutes");
 const seconds = document.getElementById("seconds");
@@ -63,6 +67,7 @@ start.addEventListener("click", function buttonClicked() {                      
             splitOfWords();                                                             // splits the chosen gameword into an array of individual letters
             countDown();                                                                // Clock starts ticking
             listener()                                                                  // listens for keyboard input
+            document.getElementById("game-image").style.background = `url(images/PixelArt.png) ${position}px 0px`
         }
         else if (wordList.hasOwnProperty([0]) === false) {                              // if false
             window.alert("I need some words!")                                          // lets player know needs more words
@@ -105,6 +110,9 @@ function gameLogic(event) {                                                     
             console.log("You got it wrong I didnt find ", event.key.toUpperCase())
             // add a way to notify wrong letters
             // add a way to keep track of key now un available letters
+            
+            hangmanPos()
+            document.getElementById("game-image").style.background = `url(images/PixelArt.png) ${position}px 0px`
         }
     }
 }
@@ -121,6 +129,9 @@ function listener() {
     })
 }
 
+function hangmanPos() {
+    position -= 200
+}
 
 
 // adds 1 to letterCount to keep status of game

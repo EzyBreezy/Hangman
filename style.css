@@ -86,8 +86,8 @@ main {
 #game-image {
   width: 200px;
   height: 200px;
-  background: url(./images/PixelArt.png);
-  background-position: -200px 0px; /* moving the image from within to the left on the sprite*/
+  /* background: url(./images/PixelArt.png) -0px 0; */
+ /* moving the image from within to the left on the sprite*/
 }
 
 #keyboard {
