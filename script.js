@@ -42,7 +42,7 @@ let letterCount = 0 //keeps count of letters that passed test
 let win = 0     // needs work
 let lose = 0    // needs work
 
-submit.addEventListener("click", function buttonClicked() {                             // submit button event listener
+submit.addEventListener("click", () => {                             // submit button event listener
     if (word.selectionEnd > 0) {                                                        // looked at the object to see if it has a word greater then 0
         wordList.push(word.value.toUpperCase())                                         // pushes the word too wordList array
         console.log("The word pushed on submit is ", wordList)                          // testing purpose
@@ -56,7 +56,7 @@ submit.addEventListener("click", function buttonClicked() {                     
     }
 })
 
-start.addEventListener("click", function buttonClicked() {                              // start button event listener
+start.addEventListener("click", () => {                              // start button event listener
     play = true
     if (gameWord.hasOwnProperty([0]) === false) {                                       // checks to make sure current game isnt active
         if (wordList.hasOwnProperty([0]) === true) {                                    // can only start the game if the wordList has words to play with.
@@ -76,17 +76,14 @@ start.addEventListener("click", function buttonClicked() {                      
 })
 
 
-reset.addEventListener("click", function buttonClicked() {      // reset button event listener
+reset.addEventListener("click", () => {      // reset button event listener
     sec = 00
     min = 00
     seconds.innerHTML = sec
     minutes.innerHTML = min
-    document.removeEventListener("keypress", (event) => {
-        console.log(event)
-    })
 })
 
-function gameLogic(event) {                                                                                                 // Game Logic Function
+let gameLogic = (event) => {                                                                                                 // Game Logic Function
     if (hashOfGameWord[0].length > letterCount) {                                                                           // if the length of the split word is greater then total letter count
         if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {                                               // returns boolean and expects true when checking each key vs each letter
             console.log("You got it right I found ", event.key.toUpperCase());                                              // *TESTING* Notifies that it found that key.
@@ -119,7 +116,7 @@ function gameLogic(event) {                                                     
 
 
 // function that handles the keyboard listening
-function listener() {
+let listener = () => {
     document.addEventListener("keypress", (event) => {            // event listener
         if (letterGuessed.indexOf(event.key.toUpperCase()) === -1) {          // only checks if the keypressed wasnt already entered
             letterGuessed.push(event.key.toUpperCase())                       // pushes the value of key pressed to array letterGuessed
@@ -129,20 +126,20 @@ function listener() {
     })
 }
 
-function hangmanPos() {
+let hangmanPos = () => {
     position -= 200
 }
 
 
 // adds 1 to letterCount to keep status of game
 //      [x] adds 1 to the variable letterCount
-function addOne() {
+let addOne = () => {
     letterCount += 1
 }
 
 // function to check each key for wrong or right.
 //      [x] returns a boolean value true or false if the key exists.
-function checkEach(lettersArr, key) {
+let checkEach = (lettersArr, key) => {
     return lettersArr.some(function (lettersArrKeyStrokes) {
         return key === lettersArrKeyStrokes
     })
@@ -151,19 +148,19 @@ function checkEach(lettersArr, key) {
 
 // function that splits the game word
 //      [x] splits the game word
-function splitOfWords() {
+let splitOfWords = () => {
     hashOfGameWord.push(gameWord[0].split(""))                          // brakes the game word into individual arrays of each letter
 }
 
 // function that renders "_" for each letter
 //      [x] renders the empty space platform as " _ "
-function guessSpace() {
+let guessSpace = () => {
     displayWord.push("_".repeat(gameWord[0].length).split(""))  // creates "_" space for game word render
 }
 
 // function that joins the word rendered and displays the value.
 //      [x] reusable function that renders the played word.
-function renderWord() {
+let renderWord = () => {
     render.innerHTML = displayWord[0].join(" ")
 }
 
@@ -171,7 +168,7 @@ function renderWord() {
 //      [x] picks a word randomly
 //      [x] removes the word from the list of words 
 //          if being played
-function selectWord(wordList) {                                          // picks a word out
+let selectWord = (wordList) => {                                          // picks a word out
     gameWord.push(wordList[Math.floor(Math.random() * wordList.length)]) // picks a random word
     wordList.splice(wordList.indexOf(gameWord[0]), 1)                    // splice method to remove using indexOf and setting number of words to be removed too 1
     test()
@@ -179,17 +176,17 @@ function selectWord(wordList) {                                          // pick
 
 // function to add time
 //      [x] adds 2 minutes
-function addTime(extra) {                                       // executable function to add time for each word entered
+let addTime = (extra) => {                                       // executable function to add time for each word entered
     min += extra                                                // adds the time and stores that time in minutes
 }
 
 
-function timeStop(ts) {
+let timeStop = (ts) => {
     clearInterval(ts)   // stops time counter
 }
 
 
-function pickOne() {
+let pickOne = () => {
     addTime(extra)                                                              // adds time for every correct word completed
     gameWord = []                                                               // reset gameWord to empty array to be filled with new word
     hashOfGameWord = []                                                         // reset hashOfGameWord to empty array
@@ -202,7 +199,7 @@ function pickOne() {
     renderWord()                                                                  // test full of console.log for status
 }
 
-function youWin() {
+let youWin = () => {
     alert("You won!")
     play = false
     minutes.innerHTML = min
@@ -213,7 +210,8 @@ function youWin() {
     console.log("You won! Congratulations <(^_^)>")
 }
 
-function test() {
+
+let test = () => {
     console.log("/// Test Function ///")
     console.log("the list of words in game are: ")
     console.log("wordList is => ", wordList)
