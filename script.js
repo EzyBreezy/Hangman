@@ -1,4 +1,4 @@
-// time stamp
+// game status
 let play = true
 
 // 4 input fields on page
@@ -8,7 +8,7 @@ const start = document.getElementById("start");
 const reset = document.getElementById("reset");
 
 //hangman image
-let position = 0
+let position = 0 // changes by 200 to show sprite
 
 
 // timer updates
@@ -39,8 +39,7 @@ let letterGuessed = [] // stores key pressed to filter to prevent redundancy
 let letterCount = 0 //keeps count of letters that passed test
 
 // Game Logic
-let win = 0     // needs work
-let lose = 0    // needs work
+let failed = 0    // needs work so when the 7 tries failed gameOver
 
 submit.addEventListener("click", () => {                             // submit button event listener
     if (word.selectionEnd > 0) {                                                        // looked at the object to see if it has a word greater then 0
@@ -58,7 +57,7 @@ submit.addEventListener("click", () => {                             // submit b
 
 start.addEventListener("click", () => {                              // start button event listener
     play = true
-    if (gameWord.hasOwnProperty([0]) === false) {                                       // checks to make sure current game isnt active
+    if (gameWord.hasOwnProperty([0]) === false && play === true) {                      // checks to make sure current game isnt active
         if (wordList.hasOwnProperty([0]) === true) {                                    // can only start the game if the wordList has words to play with.
             selectWord(wordList)                                                        // picks one word from wordList
             guessSpace()                                                                // creates " _ " to be rendered
@@ -77,10 +76,19 @@ start.addEventListener("click", () => {                              // start bu
 
 
 reset.addEventListener("click", () => {      // reset button event listener
+    play = false
+
+    // resets the position of hangman
+    position = 0
+    document.getElementById("game-image").style.background = `url(images/PixelArt.png) ${position}px 0px`
+
+    // resets time
     sec = 00
     min = 00
     seconds.innerHTML = sec
     minutes.innerHTML = min
+
+
 })
 
 let gameLogic = (event) => {                                                                                                 // Game Logic Function
@@ -91,8 +99,8 @@ let gameLogic = (event) => {                                                    
             // add way to keep track of now un available letters
             for (i = 0; i < hashOfGameWord[0].length; i++) {                                                                // for loop that runs for length of word.
                 if (hashOfGameWord[0][hashOfGameWord[0].indexOf(event.key.toUpperCase())] === event.key.toUpperCase()) {    // checks hash of game words letters match up.
-                    displayWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, event.key.toUpperCase())
-                    renderWord()
+                    displayWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, event.key.toUpperCase())   // the variable displayWord gets the key input that matches spliced with the actual letter value
+                    renderWord()                                                                                            // updates the word state
                     hashOfGameWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, "_")                    // removes the letter at the index
                     addOne()                                                                                                // add one to counter
                     if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {                // if more games are available to pick continue
@@ -196,10 +204,11 @@ let pickOne = () => {
     selectWord(wordList)                                                        // picks one word from wordList and asigns it to gameWord
     splitOfWords();                                                             // splits the chosen word and pushes to hashofgamewor
     guessSpace()
-    renderWord()                                                                  // test full of console.log for status
+    renderWord()                                                                 // test full of console.log for status
 }
 
 let youWin = () => {
+    renderWord()
     alert("You won!")
     play = false
     minutes.innerHTML = min
@@ -293,8 +302,13 @@ function countDown() {                                      // countdown functio
     check for duplicate word entries *Need to work on this.*
     check for empty string entries *Need to work on this.*
     keep track of players right and wrong answers. *Need to work on this* 
-    timer starts counting down. *DONE need to work on this*
+    timer starts counting down. *DONE need to work on this* // two 
     hangman sprite in images folder. each sprite 200 apart.
+*/
+
+/*
+//bugs
+    when player wins the game doesnt show the last letter input until after alert
 */
 
 
