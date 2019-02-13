@@ -8,7 +8,7 @@ const start = document.getElementById("start");
 const reset = document.getElementById("reset");
 
 //hangman image
-let position = 0 // changes by 200 to show sprite
+let position = 0 // changes by -200 to show sprite
 
 // timer updates
 const minutes = document.getElementById("minutes");
@@ -31,7 +31,7 @@ let hashOfGameWord = []   // array of gameWord split
 let displayWord = []      // the displayed array of letters
 
 // position of print of guess spaces
-let render = document.getElementById("guess");
+const render = document.getElementById("guess");
 
 //Keyboard array
 let letterGuessed = [] // stores key pressed to filter to prevent redundancy 
@@ -43,9 +43,9 @@ let addOne = () => {
 }
 
 // Game Logic
-let failed = 0    // needs work so when the 7 tries failed gameOver
+let failed = 0
 
-submit.addEventListener("click", () => {                             // submit button event listener
+submit.addEventListener("click", () => {                                                // submit button event listener
     if (word.selectionEnd > 0) {                                                        // looked at the object to see if it has a word greater then 0
         wordList.push(word.value.toUpperCase())                                         // pushes the word too wordList array
         console.log("The word pushed on submit is ", wordList)                          // testing purpose
@@ -59,9 +59,9 @@ submit.addEventListener("click", () => {                             // submit b
     }
 })
 
-start.addEventListener("click", () => {                              // start button event listener
+start.addEventListener("click", () => {                                                 // start button event listener
     play = true
-    if (gameWord.hasOwnProperty([0]) === false) {                      // checks to make sure current game isnt active
+    if (gameWord.hasOwnProperty([0]) === false) {                                       // checks to make sure current game isnt active
         if (wordList.hasOwnProperty([0]) === true) {                                    // can only start the game if the wordList has words to play with.
             selectWord(wordList)                                                        // picks one word from wordList
             guessSpace()                                                                // creates " _ " to be rendered
@@ -190,6 +190,7 @@ let renderWord = () => {
 let selectWord = (wordList) => {                                          // picks a word out
     gameWord.push(wordList[Math.floor(Math.random() * wordList.length)]) // picks a random word
     wordList.splice(wordList.indexOf(gameWord[0]), 1)                    // splice method to remove using indexOf and setting number of words to be removed too 1
+    console.error("this was called from selectWord function")
     test()
 }
 
@@ -202,12 +203,20 @@ let pickNextOne = () => {
     letterCount = 0                                                             // letter count tracker reset to 0
     failed = 0
     position = 0
+    document.getElementById("game-image").style.background = `url(images/PixelArt.png) ${position}px 0px` // update image
     displayWord = []
     selectWord(wordList)                                                        // picks one word from wordList and asigns it to gameWord
     splitOfWords();                                                             // splits the chosen word and pushes to hashofgamewor
     guessSpace()                                                                // sets the spaces for guess box in html
     renderWord()                                                                // renders the spaces and positioning of words pickNextOne sets to empty "_ _ _" subjective to length of gameWord
 
+}
+let stats = () => {
+    // print total words
+    // print list of correct words
+    // print list of wrong words
+    // print total time
+    // percentage of marked correctly
 }
 
 let youWin = () => {
@@ -225,6 +234,8 @@ let youLose = () => { // if you lose the word handler
     if (wordList.hasOwnProperty([0]) === true) {             // if you lose and wordList has more to be played
         alert("You almost had it")
         // add a way to store failed words
+        console.error("this was called from if")
+        test()
         gameWord = []                                           // resets the gameWord
         hashOfGameWord = []                                     // resets the splice of gameWord
         letterCount = 0                                         // clear the letter count back to 0
@@ -237,14 +248,22 @@ let youLose = () => { // if you lose the word handler
         splitOfWords()
         guessSpace()
     } else if (wordList.hasOwnProperty([0]) === false) { // if you lose
+        console.error("this was called from within youLose else if")
+        test()
         alert("The End")
         play = false                                            // turn off game
-        wordList = []                                           // reset the array of WordList
         gameWord = []                                           // resets the gameWord
         hashOfGameWord = []                                     // resets the splice of gameWord
-        letterCount = 0                                         // clear the letter count back to 0
         letterGuessed = []                                      // clear the array of guessed letters
         displayWord = []                                        // reset the word render
+        failed = 0
+        position = 0
+        document.getElementById("game-image").style.background = `none` // update image
+        min = 0
+        minutes.innerHTML = min
+        seconds.innerHTML = sec
+
+        render.innerHTML = ""
         // print final stats future add
     } 
 }
