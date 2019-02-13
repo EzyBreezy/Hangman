@@ -48,7 +48,7 @@ let failed = 0
 submit.addEventListener("click", () => {                                                // submit button event listener
     if (word.selectionEnd > 0) {                                                        // looked at the object to see if it has a word greater then 0
         wordList.push(word.value.toUpperCase())                                         // pushes the word too wordList array
-        console.log("The word pushed on submit is ", wordList)                          // testing purpose
+        // console.log("The word pushed on submit is ", wordList)                          // testing purpose
         addTime(extra)                                                                  // add extra time for each word entered overall
         total.innerHTML = wordList.length
         minutes.innerHTML = min                                                         // Shows bonus time for words
@@ -66,7 +66,7 @@ start.addEventListener("click", () => {                                         
             selectWord(wordList)                                                        // picks one word from wordList
             guessSpace()                                                                // creates " _ " to be rendered
             renderWord()                                                                // renders word
-            console.log("the game word length is = ", gameWord[0].length)               // ** test that shows length of word **
+            // console.log("the game word length is = ", gameWord[0].length)               // ** test that shows length of word **
             splitOfWords();                                                             // splits the chosen gameword into an array of individual letters
             countDown();                                                                // Clock starts ticking
             listener()                                                                  // listens for keyboard input
@@ -108,7 +108,7 @@ reset.addEventListener("click", () => {      // reset button event listener
 let gameLogic = (event) => {                                                                                                 // Game Logic Function
     if (hashOfGameWord[0].length > letterCount && play === true) {                                                                           // if the length of the split word is greater then total letter count
         if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {                                               // returns boolean and expects true when checking each key vs each letter
-            console.log("You got it right I found ", event.key.toUpperCase());                                              // *TESTING* Notifies that it found that key.
+            // console.log("You got it right I found ", event.key.toUpperCase());                                              // *TESTING* Notifies that it found that key.
             // add a color indicator for correct key
             // add way to keep track of now un available letters
             for (i = 0; i < hashOfGameWord[0].length; i++) {                                                                // for loop that runs for length of word.
@@ -126,7 +126,7 @@ let gameLogic = (event) => {                                                    
 
             }
         } else if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === false) {                                   // checks for a false boolean for k
-            console.log("You got it wrong I didnt find ", event.key.toUpperCase())
+            // console.log("You got it wrong I didnt find ", event.key.toUpperCase())
             // add a way to notify wrong letters
             // add a way to keep track of key now un available letters
             fail()
@@ -145,7 +145,7 @@ let listener = () => {
     document.addEventListener("keypress", (event) => {            // event listener
         if (letterGuessed.indexOf(event.key.toUpperCase()) === -1 && play === true) {          // only checks if the keypressed wasnt already entered
             letterGuessed.push(event.key.toUpperCase())                       // pushes the value of key pressed to array letterGuessed
-            console.log("The values in letterGuessed:", letterGuessed)      // ***testing***
+            // console.log("The values in letterGuessed:", letterGuessed)      // ***testing***
             gameLogic(event)
         }
     })
@@ -190,8 +190,8 @@ let renderWord = () => {
 let selectWord = (wordList) => {                                          // picks a word out
     gameWord.push(wordList[Math.floor(Math.random() * wordList.length)]) // picks a random word
     wordList.splice(wordList.indexOf(gameWord[0]), 1)                    // splice method to remove using indexOf and setting number of words to be removed too 1
-    console.error("this was called from selectWord function")
-    test()
+    // console.error("this was called from selectWord function")
+    // test()
 }
 
 
@@ -234,8 +234,8 @@ let youLose = () => { // if you lose the word handler
     if (wordList.hasOwnProperty([0]) === true) {             // if you lose and wordList has more to be played
         alert("You almost had it")
         // add a way to store failed words
-        console.error("this was called from if")
-        test()
+        // console.error("this was called from if")
+        // test()
         gameWord = []                                           // resets the gameWord
         hashOfGameWord = []                                     // resets the splice of gameWord
         letterCount = 0                                         // clear the letter count back to 0
@@ -248,8 +248,8 @@ let youLose = () => { // if you lose the word handler
         splitOfWords()
         guessSpace()
     } else if (wordList.hasOwnProperty([0]) === false) { // if you lose
-        console.error("this was called from within youLose else if")
-        test()
+        // console.error("this was called from within youLose else if")
+        // test()
         alert("The End")
         play = false                                            // turn off game
         gameWord = []                                           // resets the gameWord

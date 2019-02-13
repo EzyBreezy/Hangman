@@ -5,9 +5,6 @@
 
 ![screen shot of hangman game](https://user-images.githubusercontent.com/40907544/52573300-d7a32780-2de7-11e9-81b0-9dfbc32e72f0.png)
 
-### Brief Example
-- Single player mode few kinks for determing winner and loser.
-
 
 ### List of Technologies Used
 - HTML, CSS, JS
