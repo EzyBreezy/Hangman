@@ -12,4 +12,4 @@
 ### Installation Instructions / Getting Started
 - This is built with Vanilla JavaScript. It will render in the browser open index.html from local machine or visit [hangmanjs](hangmanjs.surge.sh).
 
-### Contribution Guidelines
+<!-- ### Contribution Guidelines -->
