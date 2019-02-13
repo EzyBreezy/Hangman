@@ -44,7 +44,6 @@ let addOne = () => {
 
 // Game Logic
 let failed = 0    // needs work so when the 7 tries failed gameOver
-let fail = () => {failed += 1}
 
 submit.addEventListener("click", () => {                             // submit button event listener
     if (word.selectionEnd > 0) {                                                        // looked at the object to see if it has a word greater then 0
@@ -135,7 +134,6 @@ let gameLogic = (event) => {                                                    
             document.getElementById("game-image").style.background = `url(images/PixelArt.png) ${position}px 0px`
             if (failed === 6) {
                 youLose()
-                // you lose
             }
         }
     }
@@ -253,26 +251,25 @@ let youLose = () => { // if you lose the word handler
 
 let test = () => {
     console.log("/// Test Function ///")
-    console.log("the list of words in game are: ")
+    console.error("play status is => ", play)
+    console.log("                              ")
     console.error("wordList is => ", wordList)
     console.log("                              ")
-    console.log("the selected gameWord is: ")
     console.error("gameWord is => ", gameWord)
     console.log("                              ")
-    console.log("the hash of game word is : ")
     console.error("hashOfGameWord is => ", hashOfGameWord)
     console.log("                              ")
-    console.log("the rolling cycle of letters are: ")
-    console.error("Letter Count is => ", letterCount)
-    console.log("                              ")
-    console.log("the input collection is: ")
-    console.error("letterGuessed is => ", letterGuessed)
-    console.log("                              ")
-    console.log("the visable word to players is: ")
     console.error("displayWord is => ", displayWord)
     console.log("                              ")
-    // console.error("wordList has property array says", wordList[0].hasOwnProperty([0]))
-    // console.error("wordList has own property no array says", wordList[0].hasOwnProperty() === false)
+    console.error("Letter Count is => ", letterCount)
+    console.log("                              ")
+    console.error("letterGuessed is => ", letterGuessed)
+    console.log("                              ")
+    console.error("position is => ", position)
+    console.log("                              ")
+    console.error("min & sec is => ", min, " : ", sec)
+    console.log("                              ")
+    console.error("failed is => ", failed)
 }
 
 // function that counts down
@@ -334,25 +331,23 @@ let addTime = (extra) => {                                       // executable f
 let hangmanPos = () => {
     position -= 200
 }
+let fail = () => {failed += 1}
 
 // sudo code
 
 /*
-    // to do's
-    onClick let user know button was hit some way.  **Need to work on this**
-    hide submit and word. ** Need to work on this **
-    check for duplicate word entries *Need to work on this.*
-    check for empty string entries *Need to work on this.*
-    keep track of players right and wrong answers. *Need to work on this* 
-    timer starts counting down. *DONE need to work on this* // two 
-    hangman sprite in images folder. each sprite 200 apart.
+    ! to do's
+    ! onClick let user know button was hit some way.  **Need to work on this**
+    ! hide submit and word. ** Need to work on this **    
+    ! keep track of players right and wrong answers. *Need to work on this* 
+    todo check for duplicate word entries *Need to work on this.*
+    todo check for empty string entries *Need to work on this.*
+    todo timer starts counting down. *DONE need to work on this* // two digits
+    todo when player wins the game doesnt show the last letter input until after alert
 */
 
 /*
-    //bugs
-    when player wins the game doesnt show the last letter input until after alert
-
-    when player guesses a word and has some failes but complete the word it should continue to next word with a blank canvas so game doesnt end rapidly.
+    //bugs 
 */
 
 
