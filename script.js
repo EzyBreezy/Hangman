@@ -10,7 +10,6 @@ const reset = document.getElementById("reset");
 //hangman image
 let position = 0 // changes by 200 to show sprite
 
-
 // timer updates
 const minutes = document.getElementById("minutes");
 const seconds = document.getElementById("seconds");
@@ -31,15 +30,21 @@ let gameWord = []         // the playing word
 let hashOfGameWord = []   // array of gameWord split
 let displayWord = []      // the displayed array of letters
 
-// print of guess spaces
+// position of print of guess spaces
 let render = document.getElementById("guess");
 
 //Keyboard array
 let letterGuessed = [] // stores key pressed to filter to prevent redundancy 
 let letterCount = 0 //keeps count of letters that passed test
+// adds 1 to letterCount to keep status of game
+//      [x] adds 1 to the variable letterCount
+let addOne = () => {
+    letterCount += 1
+}
 
 // Game Logic
 let failed = 0    // needs work so when the 7 tries failed gameOver
+let fail = () => {failed += 1}
 
 submit.addEventListener("click", () => {                             // submit button event listener
     if (word.selectionEnd > 0) {                                                        // looked at the object to see if it has a word greater then 0
@@ -57,7 +62,7 @@ submit.addEventListener("click", () => {                             // submit b
 
 start.addEventListener("click", () => {                              // start button event listener
     play = true
-    if (gameWord.hasOwnProperty([0]) === false && play === true) {                      // checks to make sure current game isnt active
+    if (gameWord.hasOwnProperty([0]) === false) {                      // checks to make sure current game isnt active
         if (wordList.hasOwnProperty([0]) === true) {                                    // can only start the game if the wordList has words to play with.
             selectWord(wordList)                                                        // picks one word from wordList
             guessSpace()                                                                // creates " _ " to be rendered
@@ -76,11 +81,12 @@ start.addEventListener("click", () => {                              // start bu
 
 
 reset.addEventListener("click", () => {      // reset button event listener
+    // game stops
     play = false
 
     // resets the position of hangman
     position = 0
-    document.getElementById("game-image").style.background = `url(images/PixelArt.png) ${position}px 0px`
+    document.getElementById("game-image").style.background = `none`
 
     // resets time
     sec = 00
@@ -88,11 +94,20 @@ reset.addEventListener("click", () => {      // reset button event listener
     seconds.innerHTML = sec
     minutes.innerHTML = min
 
+    // reset the words
+    wordList = [] // array of words entered
+    gameWord = [] // the word being played from wordList
+    hashOfGameWord = [] // the split array of gameWord
+    displayWord = [] // the progress of the word entered
+    letterGuessed = [] // array of all letters guessed
+    letterCount = 0 // the number of guessed letteres set back to 0
 
+    // render empty string for the guessed letters area.
+    render.innerHTML = ""  // display empty string to clear guessed letter
 })
 
 let gameLogic = (event) => {                                                                                                 // Game Logic Function
-    if (hashOfGameWord[0].length > letterCount) {                                                                           // if the length of the split word is greater then total letter count
+    if (hashOfGameWord[0].length > letterCount && play === true) {                                                                           // if the length of the split word is greater then total letter count
         if (checkEach(hashOfGameWord[0], event.key.toUpperCase()) === true) {                                               // returns boolean and expects true when checking each key vs each letter
             console.log("You got it right I found ", event.key.toUpperCase());                                              // *TESTING* Notifies that it found that key.
             // add a color indicator for correct key
@@ -104,7 +119,7 @@ let gameLogic = (event) => {                                                    
                     hashOfGameWord[0].splice(hashOfGameWord[0].indexOf(event.key.toUpperCase()), 1, "_")                    // removes the letter at the index
                     addOne()                                                                                                // add one to counter
                     if (hashOfGameWord[0].length === letterCount && wordList.hasOwnProperty([0]) === true) {                // if more games are available to pick continue
-                        pickOne()
+                        pickNextOne()
                     } else if (wordList.hasOwnProperty([0]) === false && hashOfGameWord[0].length === letterCount) {        // if no more words to pick game is over
                         youWin()
                     }
@@ -115,9 +130,13 @@ let gameLogic = (event) => {                                                    
             console.log("You got it wrong I didnt find ", event.key.toUpperCase())
             // add a way to notify wrong letters
             // add a way to keep track of key now un available letters
-            
+            fail()
             hangmanPos()
             document.getElementById("game-image").style.background = `url(images/PixelArt.png) ${position}px 0px`
+            if (failed === 6) {
+                youLose()
+                // you lose
+            }
         }
     }
 }
@@ -126,7 +145,7 @@ let gameLogic = (event) => {                                                    
 // function that handles the keyboard listening
 let listener = () => {
     document.addEventListener("keypress", (event) => {            // event listener
-        if (letterGuessed.indexOf(event.key.toUpperCase()) === -1) {          // only checks if the keypressed wasnt already entered
+        if (letterGuessed.indexOf(event.key.toUpperCase()) === -1 && play === true) {          // only checks if the keypressed wasnt already entered
             letterGuessed.push(event.key.toUpperCase())                       // pushes the value of key pressed to array letterGuessed
             console.log("The values in letterGuessed:", letterGuessed)      // ***testing***
             gameLogic(event)
@@ -134,16 +153,10 @@ let listener = () => {
     })
 }
 
-let hangmanPos = () => {
-    position -= 200
-}
 
 
-// adds 1 to letterCount to keep status of game
-//      [x] adds 1 to the variable letterCount
-let addOne = () => {
-    letterCount += 1
-}
+
+
 
 // function to check each key for wrong or right.
 //      [x] returns a boolean value true or false if the key exists.
@@ -182,34 +195,26 @@ let selectWord = (wordList) => {                                          // pic
     test()
 }
 
-// function to add time
-//      [x] adds 2 minutes
-let addTime = (extra) => {                                       // executable function to add time for each word entered
-    min += extra                                                // adds the time and stores that time in minutes
-}
 
-
-let timeStop = (ts) => {
-    clearInterval(ts)   // stops time counter
-}
-
-
-let pickOne = () => {
+let pickNextOne = () => {
     addTime(extra)                                                              // adds time for every correct word completed
     gameWord = []                                                               // reset gameWord to empty array to be filled with new word
     hashOfGameWord = []                                                         // reset hashOfGameWord to empty array
     letterGuessed = []                                                          // reset guessed letters array
     letterCount = 0                                                             // letter count tracker reset to 0
+    failed = 0
+    position = 0
     displayWord = []
     selectWord(wordList)                                                        // picks one word from wordList and asigns it to gameWord
     splitOfWords();                                                             // splits the chosen word and pushes to hashofgamewor
-    guessSpace()
-    renderWord()                                                                 // test full of console.log for status
+    guessSpace()                                                                // sets the spaces for guess box in html
+    renderWord()                                                                // renders the spaces and positioning of words pickNextOne sets to empty "_ _ _" subjective to length of gameWord
+
 }
 
 let youWin = () => {
     renderWord()
-    alert("You won!")
+    window.alert("You won!")
     play = false
     minutes.innerHTML = min
     seconds.innerHTML = sec
@@ -218,28 +223,56 @@ let youWin = () => {
     letterCount = 0
     console.log("You won! Congratulations <(^_^)>")
 }
-
+let youLose = () => { // if you lose the word handler
+    if (wordList.hasOwnProperty([0]) === true) {             // if you lose and wordList has more to be played
+        alert("You almost had it")
+        // add a way to store failed words
+        gameWord = []                                           // resets the gameWord
+        hashOfGameWord = []                                     // resets the splice of gameWord
+        letterCount = 0                                         // clear the letter count back to 0
+        letterGuessed = []                                      // clear the array of guessed letters
+        displayWord = []                                        // reset the word render
+        failed = 0                                              // the failed amount resets
+        position = 0
+        document.getElementById("game-image").style.background = `url(images/PixelArt.png) ${position}px 0px` // update image
+        selectWord(wordList)
+        splitOfWords()
+        guessSpace()
+    } else if (wordList.hasOwnProperty([0]) === false) { // if you lose
+        alert("The End")
+        play = false                                            // turn off game
+        wordList = []                                           // reset the array of WordList
+        gameWord = []                                           // resets the gameWord
+        hashOfGameWord = []                                     // resets the splice of gameWord
+        letterCount = 0                                         // clear the letter count back to 0
+        letterGuessed = []                                      // clear the array of guessed letters
+        displayWord = []                                        // reset the word render
+        // print final stats future add
+    } 
+}
 
 let test = () => {
     console.log("/// Test Function ///")
     console.log("the list of words in game are: ")
-    console.log("wordList is => ", wordList)
+    console.error("wordList is => ", wordList)
     console.log("                              ")
     console.log("the selected gameWord is: ")
-    console.log("gameWord is => ", gameWord)
+    console.error("gameWord is => ", gameWord)
     console.log("                              ")
     console.log("the hash of game word is : ")
-    console.log("hashOfGameWord is => ", hashOfGameWord)
+    console.error("hashOfGameWord is => ", hashOfGameWord)
     console.log("                              ")
     console.log("the rolling cycle of letters are: ")
-    console.log("Letter Count is => ", letterCount)
+    console.error("Letter Count is => ", letterCount)
     console.log("                              ")
     console.log("the input collection is: ")
-    console.log("letterGuessed is => ", letterGuessed)
+    console.error("letterGuessed is => ", letterGuessed)
     console.log("                              ")
     console.log("the visable word to players is: ")
-    console.log("displayWord is => ", displayWord)
+    console.error("displayWord is => ", displayWord)
     console.log("                              ")
+    // console.error("wordList has property array says", wordList[0].hasOwnProperty([0]))
+    // console.error("wordList has own property no array says", wordList[0].hasOwnProperty() === false)
 }
 
 // function that counts down
@@ -290,8 +323,17 @@ function countDown() {                                      // countdown functio
     }, 1000)
 }
 
-
-
+let timeStop = (ts) => {
+    clearInterval(ts)   // stops time counter
+}
+// function to add time
+//      [x] adds 2 minutes
+let addTime = (extra) => {                                       // executable function to add time for each word entered
+    min += extra                                                // adds the time and stores that time in minutes
+}
+let hangmanPos = () => {
+    position -= 200
+}
 
 // sudo code
 
@@ -307,8 +349,10 @@ function countDown() {                                      // countdown functio
 */
 
 /*
-//bugs
+    //bugs
     when player wins the game doesnt show the last letter input until after alert
+
+    when player guesses a word and has some failes but complete the word it should continue to next word with a blank canvas so game doesnt end rapidly.
 */
 
 
