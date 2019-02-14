@@ -4,9 +4,11 @@
   --color-3: #dfe2e2;
   --color-4: #1cb3c8;
 }
+
 * {
   box-sizing: border-box;
 }
+
 html, body {
   padding: 0;
   margin: 0;
@@ -18,8 +20,9 @@ html, body {
 }
 
 ul {
-  list-style-type: none; 
+  list-style-type: none;
 }
+
 a {
   text-decoration: none;
   color: var(--color-2);
@@ -29,10 +32,13 @@ a {
   transition-timing-function: ease-in-out;
   transition-duration: 200ms;
 }
+
 a:hover {
   color: var(--color-4);
 }
+
 /*  Nav Bar  */
+
 nav {
   background: var(--color-1);
   height: 88px;
@@ -59,6 +65,7 @@ main {
 }
 
 /* target the p tag inside timer */
+
 #timer p {
   padding: 4px;
 }
@@ -67,7 +74,6 @@ main {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  
 }
 
 #answer-con {
@@ -77,23 +83,47 @@ main {
   align-items: center;
 }
 
+.main-game-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+#stats-con {
+  position: fixed;
+  right: 0;
+  top: 10vh;
+  bottom: 10vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow: auto;
+  width: 200px;
+  min-width: 100px;
+  margin: 20px;
+  border-radius: 5px;
+  padding: 10px;
+  background: RGBA(0, 0, 0, 0.3);
+}
+
 #game-image-section {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
+
 #game-image {
   width: 200px;
   height: 200px;
   /* background: url(./images/PixelArt.png) -0px 0; */
- /* moving the image from within to the left on the sprite*/
+  /* moving the image from within to the left on the sprite*/
 }
 
 #keyboard {
   display: flex;
   flex-direction: row;
-  
 }
 
 #guess {
@@ -118,6 +148,7 @@ main {
 }
 
 /* Footer */
+
 footer {
   height: 65px;
   background: var(--color-1);
@@ -128,16 +159,16 @@ footer {
   flex: 1;
 }
 
-
-
-
 /* temp */
-main p{
+
+main p {
   color: white;
   font-weight: 800;
 }
+
 main h1 {
   color: white;
   font-weight: 800;
 }
+
 /* temp */

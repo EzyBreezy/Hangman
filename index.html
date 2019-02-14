@@ -11,14 +11,15 @@
 </head>
 
 <body>
-
-    <nav>
-        <ul>
-            <li>
-                <a href="./instructions.html"> Instructions </a>
-            </li>
-        </ul>
-    </nav>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <a href="./instructions.html"> Instructions </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
     <main>
         <section id="game-detail">
             <div>
@@ -34,15 +35,62 @@
             </div>
             <div id="answer-con">
                 <p id="correct"> 0 <p>
-                <p> / </p>
-                <p id="total"> 0 </p> <!-- total of words -->
+                        <p> / </p>
+                        <p id="total"> 0 </p> <!-- total of words -->
             </div>
         </section>
-        <section id="game-image-section">
-            <div id="game-image"></div>
+        <div class="main-game-info">
+            <section id="game-image-section">
+                <div id="game-image"></div>
+            </section>
+            <section id="stats-con">
+                <h1> Stats </h1>
+                <p> Answered: </p>
+                <ul>
+                    <li> 1 answer </li>
+                    <li> 2 answer </li>
+                    <li> 3 missed </li>
+                    <li> 4 missed </li>
+                    <li> 5 missed </li>
+                    <li> 6 missed </li>
+                    <li> 7 missed </li>
+                    <li> 8 missed </li>
+                    <li> 9 missed </li>
+                    <li> 10 missed </li>
+                    <li> 11 missed </li>
+                    <li> 12 missed </li>
+                    <li> 13 missed </li>
+                    <li> 14 missed </li>
+                </ul>
+                <p> Missed: </p>
+                <ul>
+                    <li> 1 missed </li>
+                    <li> 2 missed </li>
+                    <li> 3 missed </li>
+                    <li> 4 missed </li>
+                    <li> 5 missed </li>
+                    <li> 6 missed </li>
+                </ul>
+                <p> Total words: </p>
+                <p> 4 </p>
+                <p> Percentage: </p>
+                <p> 50% </p>
+            </section>
+        </div>
+
+        <section>
+            <h1 id="guess"></h1>
+        </section>
+        <section id="game">
+            <input type="text" placeholder="Add Words" id="word">
+            <input type="submit" id="submit">
+        </section>
+        <section id="game-navigation">
+            <input type="reset" id="reset">
+            <input type="submit" value="Start" id="start">
         </section>
         <section id="keyboard">
-                        <!-- <div id="keyboard">
+            <!-- <div id="keyboard">
                 <p> Q </p>
                 <p> W </p> 
                 <p> E </p>
@@ -72,17 +120,6 @@
                 <p> N </p>
                 <p> M </p>
             </div> -->
-        </section>
-        <section>
-            <h1 id="guess"></h1>
-        </section>
-        <section id="game">
-            <input type="text" placeholder="Add Words" id="word">
-            <input type="submit" id="submit">
-        </section>
-        <section id="game-navigation">
-            <input type="reset" id="reset">
-            <input type="submit" value="Start" id="start">
         </section>
     </main>
     <footer>

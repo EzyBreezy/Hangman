@@ -211,6 +211,8 @@ let pickNextOne = () => {
     renderWord()                                                                // renders the spaces and positioning of words pickNextOne sets to empty "_ _ _" subjective to length of gameWord
 
 }
+
+// this functions job is to let player know what there final score are..
 let stats = () => {
     // print total words
     // print list of correct words
@@ -296,7 +298,6 @@ let test = () => {
 //      and counts down from that value
 //      [x] up scalable meaning can add extra time
 //      [x] switch to indicate if game has ended, or still in play
-
 function countDown() {                                      // countdown function
     let ts = setInterval(function () {
         if (play === true) {
@@ -339,30 +340,28 @@ function countDown() {                                      // countdown functio
     }, 1000)
 }
 
-let timeStop = (ts) => {
-    clearInterval(ts)   // stops time counter
-}
+let timeStop = (ts) => {clearInterval(ts)}   // stops time counter
+
 // function to add time
 //      [x] adds 2 minutes
-let addTime = (extra) => {                                       // executable function to add time for each word entered
-    min += extra                                                // adds the time and stores that time in minutes
-}
-let hangmanPos = () => {
-    position -= 200
-}
+
+let addTime = (extra) => {min += extra}                    // executable function to add time for each word entered                                                // adds the time and stores that time in minute
+let hangmanPos = () => {position -= 200}
 let fail = () => {failed += 1}
 
 // sudo code
 
 /*
     ! to do's
-    ! onClick let user know button was hit some way.  **Need to work on this**
+    ! let user know button was hit some way.  **Need to work on this**
     ! hide submit and word. ** Need to work on this **    
     ! keep track of players right and wrong answers. *Need to work on this* 
     todo check for duplicate word entries *Need to work on this.*
     todo check for empty string entries *Need to work on this.*
     todo timer starts counting down. *DONE need to work on this* // two digits
     todo when player wins the game doesnt show the last letter input until after alert
+    todo reveal word if time runs out
+    todo a method of showing that the word was added when submit
 */
 
 /*
